@@ -543,6 +543,15 @@ ipcMain.handle("settings:wipe", async (e) => {
   return true;
 });
 
+/** GUI apps start with a minimal PATH; also look in the usual package-manager locations. */
+function resolveBin(name: string) {
+  if (path.isAbsolute(name)) return name;
+  const dirs = [...(process.env.PATH ?? "").split(path.delimiter), "/opt/homebrew/bin", "/usr/local/bin", "/usr/bin"];
+  const exts = process.platform === "win32" ? [".exe", ""] : [""];
+  for (const d of dirs) for (const e of exts) if (d && require("node:fs").existsSync(path.join(d, name + e))) return path.join(d, name + e);
+  return name;
+}
+
 // ---------- startup ----------
 app.whenReady().then(async () => {
   if (process.platform === "darwin") app.dock?.hide();
@@ -557,10 +566,11 @@ app.whenReady().then(async () => {
   });
   session.defaultSession.setPermissionRequestHandler((wc, perm, cb) => cb(wc === capture?.webContents && (perm === "media" || perm === "display-capture")));
 
-  const sttModel = path.isAbsolute(settings.stt.modelPath) ? settings.stt.modelPath : path.join(APP_DIR, settings.stt.modelPath);
+  // External processes cannot read inside app.asar; packaged builds unpack models/ next to it.
+  const sttModel = (path.isAbsolute(settings.stt.modelPath) ? settings.stt.modelPath : path.join(APP_DIR, settings.stt.modelPath)).replace(`app.asar${path.sep}`, `app.asar.unpacked${path.sep}`);
   try {
     await WhisperCli.verify(sttModel, settings.stt.modelSha256);
-    stt = new WhisperCli(settings.stt.binary, sttModel, "");
+    stt = new WhisperCli(resolveBin(settings.stt.binary), sttModel, "");
   } catch (e) {
     log({ ev: "stt_unavailable", err: String(e).slice(0, 80) });
     state.status = "transcription unavailable";

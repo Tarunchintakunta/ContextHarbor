@@ -10,9 +10,11 @@
     "selftest": "tsc -p tsconfig.json && CH_SELFTEST=1 electron dist/harness/main.js",
     "test": "tsc -p tsconfig.json && node --test \"dist/core/*.test.js\" \"dist/app/*.test.js\"",
     "harness": "tsc -p tsconfig.json && electron dist/harness/main.js",
-    "eval": "tsc -p tsconfig.json && node dist/eval/run.js"
+    "eval": "tsc -p tsconfig.json && node dist/eval/run.js",
+    "package": "tsc -p tsconfig.json && node scripts/package.mjs"
   },
   "devDependencies": {
+    "@electron/packager": "20.3.0",
     "@types/node": "24.19.1",
     "electron": "44.5.1",
     "typescript": "7.0.2"
