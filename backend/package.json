@@ -1,0 +1,21 @@
+{
+  "name": "@contextharbor/backend",
+  "version": "0.0.1",
+  "private": true,
+  "description": "ContextHarbor API skeleton: health check only. No product endpoints yet.",
+  "type": "module",
+  "main": "dist/server.js",
+  "engines": { "node": ">=22.12" },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/server.js",
+    "test": "pnpm build && node --test dist/*.test.js"
+  },
+  "dependencies": {
+    "fastify": "5.12.5"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.1",
+    "typescript": "7.0.2"
+  }
+}

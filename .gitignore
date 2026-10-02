@@ -12,3 +12,4 @@ local-data/
 *.pfx
 *.key
 ContextHarbor-Claude-Pack.zip
+.vercel/
