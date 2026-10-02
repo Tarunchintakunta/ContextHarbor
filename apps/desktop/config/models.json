@@ -1,6 +1,6 @@
 {
   "_note": "Pinned models. Change = one edit here plus `pnpm eval`. Chain order: cheapest passing model first, then a larger fallback.",
-  "evaluatedAt": "pending",
+  "evaluatedAt": "2026-10-02 (evidence/eval/eval-2026-10-02T18-45-44-609Z.json, chain-*.json)",
   "chain": [
     {
       "provider": "openai-compatible",

@@ -51,7 +51,42 @@ export function grade(c: EvalCase, raw: string) {
   };
 }
 
+const CHAIN = process.argv.includes("--chain");
+
+/** Runs the models as the app does: first model whose output passes the format check wins. */
+async function chainEval() {
+  const llms = MODELS.map((model) => createLLM({ provider: "openai-compatible", model, baseUrl: BASE, contextWindow: 32_768, temperature: 0, maxTokens: 200, timeoutMs: 20_000 }));
+  for (const l of llms) await l.generate({ system: SYSTEM_PROMPT, messages: [{ role: "user", content: message(CASES[0]) }], maxTokens: 20, timeoutMs: 120_000 });
+  const rows: { id: string; ok: boolean; why: string; used: string; ms: number }[] = [];
+  for (let round = 1; round <= ROUNDS; round++) {
+    for (const c of CASES) {
+      const t0 = Date.now();
+      let used = "none";
+      let g = { format: false, correct: false, invented: false, why: "all models failed format" };
+      for (const l of llms) {
+        const r = await l.generate({ system: SYSTEM_PROMPT, messages: [{ role: "user", content: message(c) }], maxTokens: 200, timeoutMs: 20_000 }).catch(() => null);
+        if (!r || !checkAnswer(r.text, c.passages.map((p) => p.source)).ok) continue;
+        used = l.id;
+        g = grade(c, r.text);
+        break;
+      }
+      rows.push({ id: c.id, ok: g.format && g.correct && !g.invented, why: g.why, used, ms: Date.now() - t0 });
+    }
+  }
+  const ms = rows.map((r) => r.ms).sort((a, b) => a - b);
+  const summary = {
+    chain: MODELS.join(" -> "), cases: CASES.length, rounds: ROUNDS, passRate: rows.filter((r) => r.ok).length / rows.length,
+    fallbackUsed: rows.filter((r) => r.used !== llms[0].id).length, totalP50: ms[Math.floor(ms.length / 2)], totalP95: ms[Math.ceil(ms.length * 0.95) - 1],
+    failing: rows.filter((r) => !r.ok).map((r) => `${r.id}: ${r.why}`),
+  };
+  console.log(JSON.stringify(summary));
+  const out = path.join(process.cwd(), "..", "..", "evidence", "eval");
+  mkdirSync(out, { recursive: true });
+  writeFileSync(path.join(out, `chain-${new Date().toISOString().replace(/[:.]/g, "-")}.json`), JSON.stringify({ summary, rows }, null, 2));
+}
+
 async function main() {
+  if (CHAIN) return chainEval();
   const report: Record<string, unknown>[] = [];
   for (const model of MODELS) {
     const cfg: ModelConfig = {

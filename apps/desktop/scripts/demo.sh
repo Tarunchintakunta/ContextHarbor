@@ -20,6 +20,6 @@ const s={userId:"demo-varish",users:["demo-varish"],profile:{names:["Varish"],ro
 fs.writeFileSync(process.argv[1]+"/settings.json",JSON.stringify(s,null,2));' "$WORK/userdata"
 pnpm -s build
 CH_USER_DATA="$WORK/userdata" CH_DEMO_MEETING="Sprint sync" CH_DEMO_AUDIO="$WORK/a.wav" CH_E2E=1 CH_E2E_OUT="$OUT/demo-run" \
-  perl -e 'alarm 180; exec @ARGV' ./node_modules/.bin/electron . 2>/dev/null || true
+  perl -e 'alarm 180; exec @ARGV' ./node_modules/.bin/electron . 2>"$OUT/demo-run.stderr.log" || true
 rm -rf "$WORK"
 cat "$OUT/demo-run.json"

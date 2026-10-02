@@ -1,0 +1,812 @@
+{
+  "summary": {
+    "chain": "qwen2.5:7b -> gemma3:12b",
+    "cases": 38,
+    "rounds": 3,
+    "passRate": 1,
+    "fallbackUsed": 3,
+    "totalP50": 1450,
+    "totalP95": 6577,
+    "failing": []
+  },
+  "rows": [
+    {
+      "id": "kb-01",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 6832
+    },
+    {
+      "id": "kb-02",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1280
+    },
+    {
+      "id": "kb-03",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1741
+    },
+    {
+      "id": "kb-04",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1535
+    },
+    {
+      "id": "kb-05",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1126
+    },
+    {
+      "id": "kb-06",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1837
+    },
+    {
+      "id": "kb-07",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1335
+    },
+    {
+      "id": "kb-08",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1618
+    },
+    {
+      "id": "kb-09",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1822
+    },
+    {
+      "id": "kb-10",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1667
+    },
+    {
+      "id": "kb-11",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 2146
+    },
+    {
+      "id": "kb-12",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1906
+    },
+    {
+      "id": "live-01",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1083
+    },
+    {
+      "id": "live-02",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 905
+    },
+    {
+      "id": "live-03",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1217
+    },
+    {
+      "id": "live-04",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1100
+    },
+    {
+      "id": "live-05",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 961
+    },
+    {
+      "id": "live-06",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1540
+    },
+    {
+      "id": "none-01",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 938
+    },
+    {
+      "id": "none-02",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 919
+    },
+    {
+      "id": "none-03",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 890
+    },
+    {
+      "id": "none-04",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:gemma3:12b",
+      "ms": 13300
+    },
+    {
+      "id": "none-05",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 6194
+    },
+    {
+      "id": "none-06",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 840
+    },
+    {
+      "id": "none-07",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 848
+    },
+    {
+      "id": "none-08",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 886
+    },
+    {
+      "id": "time-01",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1559
+    },
+    {
+      "id": "time-02",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1427
+    },
+    {
+      "id": "time-03",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1406
+    },
+    {
+      "id": "time-04",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1217
+    },
+    {
+      "id": "time-05",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1327
+    },
+    {
+      "id": "time-06",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1415
+    },
+    {
+      "id": "dis-01",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1480
+    },
+    {
+      "id": "dis-02",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1242
+    },
+    {
+      "id": "dis-03",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1438
+    },
+    {
+      "id": "dis-04",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1061
+    },
+    {
+      "id": "dis-05",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 930
+    },
+    {
+      "id": "dis-06",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1311
+    },
+    {
+      "id": "kb-01",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1347
+    },
+    {
+      "id": "kb-02",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1272
+    },
+    {
+      "id": "kb-03",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1700
+    },
+    {
+      "id": "kb-04",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1523
+    },
+    {
+      "id": "kb-05",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1173
+    },
+    {
+      "id": "kb-06",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1867
+    },
+    {
+      "id": "kb-07",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1299
+    },
+    {
+      "id": "kb-08",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1664
+    },
+    {
+      "id": "kb-09",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1875
+    },
+    {
+      "id": "kb-10",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1673
+    },
+    {
+      "id": "kb-11",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 2176
+    },
+    {
+      "id": "kb-12",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1767
+    },
+    {
+      "id": "live-01",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1119
+    },
+    {
+      "id": "live-02",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 957
+    },
+    {
+      "id": "live-03",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1263
+    },
+    {
+      "id": "live-04",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1095
+    },
+    {
+      "id": "live-05",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 993
+    },
+    {
+      "id": "live-06",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1601
+    },
+    {
+      "id": "none-01",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 948
+    },
+    {
+      "id": "none-02",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 930
+    },
+    {
+      "id": "none-03",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 960
+    },
+    {
+      "id": "none-04",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:gemma3:12b",
+      "ms": 14236
+    },
+    {
+      "id": "none-05",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 6577
+    },
+    {
+      "id": "none-06",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 918
+    },
+    {
+      "id": "none-07",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 919
+    },
+    {
+      "id": "none-08",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 957
+    },
+    {
+      "id": "time-01",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1620
+    },
+    {
+      "id": "time-02",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1616
+    },
+    {
+      "id": "time-03",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1583
+    },
+    {
+      "id": "time-04",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1375
+    },
+    {
+      "id": "time-05",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1482
+    },
+    {
+      "id": "time-06",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1501
+    },
+    {
+      "id": "dis-01",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1547
+    },
+    {
+      "id": "dis-02",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1470
+    },
+    {
+      "id": "dis-03",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1568
+    },
+    {
+      "id": "dis-04",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1158
+    },
+    {
+      "id": "dis-05",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 974
+    },
+    {
+      "id": "dis-06",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1450
+    },
+    {
+      "id": "kb-01",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1509
+    },
+    {
+      "id": "kb-02",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1463
+    },
+    {
+      "id": "kb-03",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1879
+    },
+    {
+      "id": "kb-04",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1730
+    },
+    {
+      "id": "kb-05",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1258
+    },
+    {
+      "id": "kb-06",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 2069
+    },
+    {
+      "id": "kb-07",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1488
+    },
+    {
+      "id": "kb-08",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1910
+    },
+    {
+      "id": "kb-09",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 2110
+    },
+    {
+      "id": "kb-10",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1895
+    },
+    {
+      "id": "kb-11",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 2408
+    },
+    {
+      "id": "kb-12",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 2078
+    },
+    {
+      "id": "live-01",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1253
+    },
+    {
+      "id": "live-02",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1029
+    },
+    {
+      "id": "live-03",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1360
+    },
+    {
+      "id": "live-04",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1235
+    },
+    {
+      "id": "live-05",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1115
+    },
+    {
+      "id": "live-06",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1746
+    },
+    {
+      "id": "none-01",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1102
+    },
+    {
+      "id": "none-02",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1049
+    },
+    {
+      "id": "none-03",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1014
+    },
+    {
+      "id": "none-04",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:gemma3:12b",
+      "ms": 15382
+    },
+    {
+      "id": "none-05",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 6982
+    },
+    {
+      "id": "none-06",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1002
+    },
+    {
+      "id": "none-07",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1047
+    },
+    {
+      "id": "none-08",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1089
+    },
+    {
+      "id": "time-01",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1724
+    },
+    {
+      "id": "time-02",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1743
+    },
+    {
+      "id": "time-03",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1687
+    },
+    {
+      "id": "time-04",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1446
+    },
+    {
+      "id": "time-05",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1567
+    },
+    {
+      "id": "time-06",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1664
+    },
+    {
+      "id": "dis-01",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1813
+    },
+    {
+      "id": "dis-02",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1474
+    },
+    {
+      "id": "dis-03",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1742
+    },
+    {
+      "id": "dis-04",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1290
+    },
+    {
+      "id": "dis-05",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1110
+    },
+    {
+      "id": "dis-06",
+      "ok": true,
+      "why": "",
+      "used": "openai-compatible:qwen2.5:7b",
+      "ms": 1477
+    }
+  ]
+}

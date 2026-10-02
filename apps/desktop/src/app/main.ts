@@ -97,6 +97,7 @@ async function switchUser(userId: string) {
   await ctx.init();
   if (stt) stt.vocabulary = vocabulary();
   log({ ev: "user_active", embedder: ctx.embedderId });
+  void finalizePending(ctx);
   refresh();
 }
 
@@ -154,7 +155,22 @@ async function endMeeting(reason: string, discard = false) {
   const c = ctx;
   const folder = meetingFolder(m.live.meta);
   c.vault.saveMeeting({ id: m.live.meta.id, title: m.live.meta.title, startedAt: m.live.meta.startedAt, endedAt: Date.now(), folder, transcript: m.live.toMarkdown() });
+  if (reason === "quit") {
+    c.vault.files.write(`pending/${m.live.meta.id}`, JSON.stringify({ meta: m.live.meta, items: m.live.items })); // summarized on next launch
+    return;
+  }
   void c.memory.finalize(m.live).catch((e) => log({ ev: "finalize_error", err: String(e).slice(0, 80) })); // background
+}
+
+/** Summarizes meetings that ended while the app was quitting. */
+async function finalizePending(c: UserContext) {
+  for (const name of c.vault.files.list("pending")) {
+    const p = JSON.parse(c.vault.files.read(name)!) as { meta: LiveContextBuffer["meta"]; items: LiveItem[] };
+    const live = new LiveContextBuffer(p.meta);
+    for (const i of p.items) live.add(i);
+    await c.memory.finalize(live).catch((e) => log({ ev: "finalize_error", err: String(e).slice(0, 80) }));
+    c.vault.files.remove(name);
+  }
 }
 
 function currentPolicy(): PolicyDecision | null {
@@ -406,7 +422,7 @@ function trayIcon() {
 }
 
 function refresh() {
-  if (!tray) return;
+  if (!tray || tray.isDestroyed()) return;
   const m = state.meeting;
   const label = state.paused ? "Paused" : state.listening ? `Listening${state.captureMode === "simulated" ? " (simulated audio)" : ""}` : m ? "Meeting detected" : "Idle";
   tray.setImage(trayIcon());
@@ -561,8 +577,13 @@ app.whenReady().then(async () => {
   if (app.isPackaged) app.setLoginItemSettings({ openAtLogin: settings.startAtLogin });
 
   // Loopback system audio for the hidden capture window; video track is dropped immediately in the renderer.
-  session.defaultSession.setDisplayMediaRequestHandler((_req, cb) => {
-    void desktopCapturer.getSources({ types: ["screen"] }).then((s) => cb({ video: s[0], audio: "loopback" }));
+  // Always answer the request: an unanswered one (e.g. no Screen Recording permission) blocks shutdown.
+  session.defaultSession.setDisplayMediaRequestHandler((req, cb) => {
+    if (req.frame?.top?.processId !== capture?.webContents.getProcessId()) return cb({});
+    desktopCapturer.getSources({ types: ["screen"] }).then(
+      (s) => (s[0] ? cb({ video: s[0], audio: "loopback" }) : cb({})),
+      (e) => { log({ ev: "loopback_denied", err: String(e).slice(0, 60) }); cb({}); },
+    );
   });
   session.defaultSession.setPermissionRequestHandler((wc, perm, cb) => cb(wc === capture?.webContents && (perm === "media" || perm === "display-capture")));
 
@@ -589,17 +610,32 @@ app.whenReady().then(async () => {
     flushLogs();
   }, 60_000);
   if (process.env.CH_OPEN_SETTINGS === "1") openSettings();
+  if (process.env.CH_E2E_SETTINGS_OUT) {
+    openSettings();
+    settingsWin!.webContents.once("did-finish-load", () => setTimeout(async () => {
+      writeFileSync(process.env.CH_E2E_SETTINGS_OUT!, (await settingsWin!.webContents.capturePage()).toPNG());
+      app.quit();
+    }, 1500));
+  }
   void pollMeeting();
 });
 
 app.on("window-all-closed", () => {}); // background app: closing windows never quits
+if (process.env.CH_EXIT_AFTER_MS) setTimeout(() => { if (process.env.CH_SHOW_OVERLAY) showOverlay(); setTimeout(() => app.quit(), 1000); }, Number(process.env.CH_EXIT_AFTER_MS));
+for (const ev of ["before-quit", "will-quit", "quit"] as const) app.on(ev as "quit", () => process.env.CH_E2E && console.error(`[lifecycle] ${ev}`));
+let quitting = false;
 app.on("before-quit", () => {
+  if (quitting) return;
+  quitting = true;
   void endMeeting("quit");
   flushLogs();
   globalShortcut.unregisterAll();
   stt?.dispose();
   ctx?.dispose();
-  tray?.destroy();
+  // Late IPC (e.g. the capture window's "stopped") must not touch a destroyed tray: that deadlocks shutdown.
+  const t = tray;
+  tray = null;
+  t?.destroy();
 });
 
 // Test hooks for the end-to-end demo script (no effect unless the env flag is set).

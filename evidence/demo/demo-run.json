@@ -1,26 +1,34 @@
 {
   "question": "varish. When does the payments migration launch?",
-  "answer": "Answer unavailable right now.",
-  "status": "unavailable",
-  "model": null,
+  "answer": "- Launch date: October 14, starting with Ireland and the Netherlands.\n— sources: payments-plan-2026-09-30.md (2026-09-30)",
+  "status": "answered",
+  "model": "openai-compatible:qwen2.5:7b",
   "timings": {
-    "retrievalMs": 111,
-    "totalMs": 16121
+    "retrievalMs": 27,
+    "totalMs": 1622,
+    "firstTokenMs": 683
   },
   "requestTokens": 4681,
   "attempts": [
     {
       "modelId": "openai-compatible:qwen2.5:7b",
-      "error": "timeout: timed out",
-      "ms": 8007
-    },
-    {
-      "modelId": "openai-compatible:gemma3:12b",
-      "error": "timeout: timed out",
-      "ms": 8003
+      "ms": 1594
     }
   ],
-  "sources": [],
+  "sources": [
+    {
+      "file": "payments-plan-2026-09-30.md",
+      "date": "2026-09-30"
+    },
+    {
+      "file": "payments-plan-2026-09-23.md",
+      "date": "2026-09-23"
+    },
+    {
+      "file": "project-overview.md",
+      "date": null
+    }
+  ],
   "overlay": {
     "visible": true,
     "focused": false,
