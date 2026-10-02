@@ -6,6 +6,7 @@ import { type LLM, LLMError, runChain } from "./llm";
 import { SYSTEM_PROMPT, NOTHING, buildUserMessage, checkAnswer, renderPassage } from "./prompt";
 import { timeHintWeeks } from "./weeks";
 import { tokens } from "./embed";
+import { meetingFolder } from "./memory";
 
 export interface Answer {
   text: string; // validated Section 10 output, or NOTHING / UNAVAILABLE
@@ -66,7 +67,8 @@ export class AnswerPipeline {
         this.kb.search(this.userId, query, { weeks, docTypes: ["note", "reference"], k: 6, now: new Date(now) }),
         this.kb.search(this.userId, query, { weeks, docTypes: ["meeting"], k: 4, now: new Date(now) }),
       ]);
-      segments = segments.filter((s) => !s.sourcePath.startsWith(`live:${live.meta.id}`)); // current meeting comes from the buffer
+      const current = meetingFolder(live.meta);
+      segments = segments.filter((s) => !s.sourcePath.startsWith(current)); // current meeting comes from the live buffer
       assertOwned(this.userId, [...passages, ...segments]);
     } catch (e) {
       clearTimeout(slow);

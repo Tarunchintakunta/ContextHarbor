@@ -92,7 +92,7 @@ function createOverlay() {
   overlay.setContentProtection(true);
   overlay.webContents.on("will-navigate", (e) => e.preventDefault());
   overlay.webContents.setWindowOpenHandler(() => ({ action: "deny" }));
-  overlay.loadFile(path.join(__dirname, "..", "static", "overlay.html"));
+  overlay.loadFile(path.join(__dirname, "..", "..", "static", "harness.html"));
   overlay.webContents.on("did-finish-load", pushState);
 }
 

@@ -1,0 +1,37 @@
+{
+  "_note": "Pinned models. Change = one edit here plus `pnpm eval`. Chain order: cheapest passing model first, then a larger fallback.",
+  "evaluatedAt": "pending",
+  "chain": [
+    {
+      "provider": "openai-compatible",
+      "model": "qwen2.5:7b",
+      "digest": "845dbda0ea48",
+      "baseUrl": "http://127.0.0.1:11434/v1",
+      "contextWindow": 32768,
+      "temperature": 0,
+      "maxTokens": 200,
+      "timeoutMs": 8000,
+      "costPerMTokIn": 0,
+      "costPerMTokOut": 0
+    },
+    {
+      "provider": "openai-compatible",
+      "model": "gemma3:12b",
+      "digest": "f4031aab637d",
+      "baseUrl": "http://127.0.0.1:11434/v1",
+      "contextWindow": 32768,
+      "temperature": 0,
+      "maxTokens": 200,
+      "timeoutMs": 10000,
+      "costPerMTokIn": 0,
+      "costPerMTokOut": 0
+    }
+  ],
+  "embedding": { "provider": "ollama", "model": "nomic-embed-text", "digest": "0a109f422b47" },
+  "stt": {
+    "engine": "whisper-cli",
+    "binary": "whisper-cli",
+    "modelPath": "models/ggml-base.en.bin",
+    "modelSha256": "a03779c86df3323075f5e796cb2ce5029f00ec8869eee3fdfb897afe36c6d002"
+  }
+}

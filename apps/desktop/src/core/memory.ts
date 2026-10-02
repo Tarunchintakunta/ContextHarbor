@@ -82,10 +82,10 @@ export class MeetingMemory {
     const folder = meetingFolder(live.meta);
     const date = new Date(live.meta.startedAt).toISOString().slice(0, 10);
     const transcript = live.toMarkdown();
-    await this.kb.upsertDocument(this.userId, `${folder}/transcript.md`, transcript, { title: `${live.meta.title} (${date})`, date, docType: "meeting" });
+    await this.kb.upsertDocument(this.userId, `${folder}/transcript.md`, transcript, { title: `${live.meta.title} (${date})`, date, docType: "meeting", origin: "app" });
     const summary = await this.sum.summarize("meeting", transcript, CAPS.meeting);
     this.store.set(`meeting:${folder}`, summary);
-    await this.kb.upsertDocument(this.userId, `${folder}/summary.md`, summary, { title: `${live.meta.title} summary (${date})`, date, docType: "meeting" });
+    await this.kb.upsertDocument(this.userId, `${folder}/summary.md`, summary, { title: `${live.meta.title} summary (${date})`, date, docType: "meeting", origin: "app" });
 
     const series = live.meta.seriesId ?? slug(live.meta.title);
     const prev = this.store.get(`series:${series}`) ?? "";

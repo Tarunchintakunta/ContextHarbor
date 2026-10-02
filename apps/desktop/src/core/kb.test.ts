@@ -58,9 +58,12 @@ test("folder sync is incremental and removes deleted files; metadata comes from 
   assert.equal(hit.week, "2026-W40");
   assert.equal(hit.date, "2026-10-01");
   assert.equal(hit.docType, "note");
+  await kb.upsertDocument("u1", "2026/W40_2026-09-28_to_2026-10-04/meetings/2026-10-01_sync/transcript.md", "Recorded sync about INC-4821 follow-up.", { docType: "meeting", origin: "app" });
   rmSync(path.join(wk, "incident-report-2026-10-01.md"));
   assert.equal(await kb.syncFolder("u1", root), 1);
-  assert.deepEqual(await kb.search("u1", "INC-4821 outage", { now }), []);
+  const after = await kb.search("u1", "INC-4821 outage", { now });
+  assert.ok(after.every((p) => p.docType === "meeting"), "app-recorded meeting survives folder sync; deleted file is gone");
+  assert.equal(after.length, 1);
   kb.close();
   rmSync(dir, { recursive: true });
 });

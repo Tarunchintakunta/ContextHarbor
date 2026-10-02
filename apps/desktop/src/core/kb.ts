@@ -40,7 +40,7 @@ export class KnowledgeBase {
       PRAGMA journal_mode = WAL;
       CREATE TABLE IF NOT EXISTS meta (k TEXT PRIMARY KEY, v TEXT);
       CREATE TABLE IF NOT EXISTS docs (user_id TEXT NOT NULL, source_path TEXT NOT NULL, hash TEXT NOT NULL,
-        PRIMARY KEY (user_id, source_path));
+        origin TEXT NOT NULL DEFAULT 'file', PRIMARY KEY (user_id, source_path));
       CREATE TABLE IF NOT EXISTS chunks (id INTEGER PRIMARY KEY, user_id TEXT NOT NULL CHECK (user_id <> ''),
         source_path TEXT NOT NULL, week TEXT, date TEXT, title TEXT NOT NULL, doc_type TEXT NOT NULL,
         text TEXT NOT NULL, emb BLOB NOT NULL);
@@ -59,7 +59,8 @@ export class KnowledgeBase {
   }
 
   /** Adds or replaces one document. Returns false when content is unchanged. */
-  async upsertDocument(userId: string, sourcePath: string, text: string, meta: { title?: string; date?: string; docType?: string } = {}) {
+  /** `origin: "app"` marks recordings/summaries the app created; folder sync never deletes those. */
+  async upsertDocument(userId: string, sourcePath: string, text: string, meta: { title?: string; date?: string; docType?: string; origin?: "file" | "app" } = {}) {
     requireUser(userId);
     const hash = createHash("sha256").update(text).digest("hex");
     const prev = this.db.prepare("SELECT hash FROM docs WHERE user_id = ? AND source_path = ?").get(userId, sourcePath) as { hash: string } | undefined;
@@ -84,7 +85,7 @@ export class KnowledgeBase {
         const r = ins.run(userId, sourcePath, week, date, title, docType, p, Buffer.from(embs[i].buffer));
         fts.run(r.lastInsertRowid, p, title);
       });
-      this.db.prepare("INSERT OR REPLACE INTO docs (user_id, source_path, hash) VALUES (?, ?, ?)").run(userId, sourcePath, hash);
+      this.db.prepare("INSERT OR REPLACE INTO docs (user_id, source_path, hash, origin) VALUES (?, ?, ?, ?)").run(userId, sourcePath, hash, meta.origin ?? "file");
       this.db.exec("COMMIT");
     } catch (e) {
       this.db.exec("ROLLBACK");
@@ -109,9 +110,9 @@ export class KnowledgeBase {
       seen.add(rel);
       if (await this.upsertDocument(userId, rel, readFileSync(abs, "utf8"))) changed++;
     }
-    const known = this.db.prepare("SELECT source_path FROM docs WHERE user_id = ?").all(userId) as { source_path: string }[];
+    const known = this.db.prepare("SELECT source_path FROM docs WHERE user_id = ? AND origin = 'file'").all(userId) as { source_path: string }[];
     for (const { source_path } of known) {
-      if (!seen.has(source_path) && !source_path.startsWith("live:")) {
+      if (!seen.has(source_path)) {
         this.removeDocument(userId, source_path);
         changed++;
       }
