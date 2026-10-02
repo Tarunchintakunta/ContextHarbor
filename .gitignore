@@ -13,3 +13,4 @@ local-data/
 *.key
 ContextHarbor-Claude-Pack.zip
 .vercel/
+.omc/

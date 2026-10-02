@@ -45,3 +45,13 @@ Owner-funded internal non-expiring USD grants, no payment checkout, no markup. M
 - Cost/security/compatibility implications: No spend incurred. macOS 27.0 is newer than the proposed 14.2 minimum; results on it do not prove 14.2 support.
 - Affected tasks and requirements: T03, T04, T19, T38–T41 (R10, R12, R14, R18).
 - Owner input if required: See STATUS.md "Missing owner inputs".
+
+## D08 Early skeleton deployment (owner-authorized)
+
+- ID and date: D08, 2 October 2026.
+- Problem: The owner asked to push to GitHub and deploy a frontend and a backend now, before T38.
+- Decision and scope: Use top-level `frontend/` (Next.js 16.3.8 on Vercel, project `contextharbor`, root directory `frontend`) and `backend/` (Fastify 5.12.5 on Railway, project `contextharbor`, service `backend`, root directory `/backend`). Both are health-check skeletons with no client data, no providers and no secrets. These folders take the place of the proposed `apps/web` and `apps/api`; T06 keeps these names. Both deploy automatically on push to `main`.
+- Options considered: Wait for T38 (rejected by the owner's explicit request). Host the backend on Vercel (rejected: the live gateway needs persistent WebSockets, see ARCHITECTURE).
+- Supporting evidence: docs/EVIDENCE.md, "Skeleton deployment".
+- Cost/security/compatibility implications: Railway bills by usage for one small always-on service. The Vercel hobby project has no expected recurring cost. CORS allows only `https://contextharbor.vercel.app`. This does not complete T38: there is no staging isolation, database, storage, or migrations.
+- Affected tasks and requirements: T06, T38.

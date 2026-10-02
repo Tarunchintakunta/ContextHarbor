@@ -61,3 +61,10 @@ For manual hardware tests include exact device, OS, app/runtime versions and rec
   - Not tested on Windows.
   - Not tested as a packaged app (T04).
 - Next task: T06. T03 and T04 need hardware or receiver access; see STATUS.md. The macOS Apple Silicon audio spike for T04 can start locally.
+
+## Skeleton deployment (owner request, not a TASKS.md item; see D08)
+
+- Date: 2 October 2026. Commits e7a0950 (backend) and d20cf95 (frontend). Repository: https://github.com/Tarunchintakunta/ContextHarbor (branch `main`).
+- Backend: `pnpm test` -> 1 pass, 0 fail (health response and exact-origin CORS). Railway project `c80bacad-b747-4618-b637-56d65edb75d4`, service `d5f12489-e016-4823-9065-4525c01aa3b1`, region us-west2. First deployment FAILED because it ran before the root directory was set. Deployment `14c0f791-2223-4fbe-84bc-a16e5fb4ae70` reached SUCCESS. `curl https://backend-production-8f32.up.railway.app/health` with Origin `https://contextharbor.vercel.app` -> HTTP 200, `{"status":"ok","service":"contextharbor-api","stage":"skeleton","commit":"d20cf95"}`, and `access-control-allow-origin` echoed only for that origin.
+- Frontend: `pnpm build` (Next.js 16.3.8) passes locally. Vercel project `prj_864ybi1SDbXRshJAWX880ejvcK1t` is linked to the GitHub repo with root directory `frontend` and Node 24.x. Deployment `contextharbor-5nhccrvpu` is Ready and aliased to https://contextharbor.vercel.app (HTTP 200). In a real browser, the status line read "API: reachable (build d20cf95)" after the client-side fetch.
+- Housekeeping: `.omc/` (a local plugin state file that holds no secrets) was committed in T01/T02 by mistake. It is now untracked and ignored.
