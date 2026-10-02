@@ -122,7 +122,9 @@ export class AnswerPipeline {
           timeoutMs: 8_000,
         });
         firstTokenMs = r.firstTokenMs;
-        const c = checkAnswer(r.text, [...passages, ...segments].map((p) => p.sourcePath.split("/").pop() ?? p.sourcePath));
+        // Allowed citations: passage file names, and past-meeting titles ("Weekly sync (2026-09-24)").
+        const used = [...passages, ...segments];
+        const c = checkAnswer(r.text, [...used.map((p) => p.sourcePath.split("/").pop() ?? p.sourcePath), ...used.map((p) => p.title.replace(/\s*\([^)]*\)$/, ""))]);
         if (!c.ok) throw new LLMError(`format: ${c.reason}`, "format");
         return c;
       },

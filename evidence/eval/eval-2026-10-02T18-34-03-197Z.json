@@ -1,0 +1,444 @@
+{
+  "date": "2026-10-02T18:34:03.206Z",
+  "base": "http://127.0.0.1:11434/v1",
+  "latencyTargetMs": 3000,
+  "report": [
+    {
+      "model": "gemma3:1b",
+      "cases": 38,
+      "rounds": 1,
+      "passRate": 0.02631578947368421,
+      "formatRate": 0.05263157894736842,
+      "inventedCount": 0,
+      "abstainCorrect": 0,
+      "abstainTotal": 9,
+      "errors": 0,
+      "firstTokenP50": 272,
+      "firstTokenP95": 296,
+      "coldStartMs": 2236,
+      "consistent": true,
+      "failing": [
+        "kb-02",
+        "kb-03",
+        "kb-04",
+        "kb-05",
+        "kb-06",
+        "kb-07",
+        "kb-08",
+        "kb-09",
+        "kb-10",
+        "kb-11",
+        "kb-12",
+        "live-01",
+        "live-02",
+        "live-03",
+        "live-04",
+        "live-05",
+        "live-06",
+        "none-01",
+        "none-02",
+        "none-03",
+        "none-04",
+        "none-05",
+        "none-06",
+        "none-07",
+        "none-08",
+        "time-01",
+        "time-02",
+        "time-03",
+        "time-04",
+        "time-05",
+        "time-06",
+        "dis-01",
+        "dis-02",
+        "dis-03",
+        "dis-04",
+        "dis-05",
+        "dis-06"
+      ],
+      "verdict": "FAIL",
+      "failures": [
+        {
+          "id": "kb-02",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s the output for the question:\n\nVarish, Dana Kim owns the ledger reconciliation work.  Ledger reconciliation is due October 20th. The owner of this work is Dana Kim. -  The team needs to verify the ledger balance. - This is a critical task for the company.\n"
+        },
+        {
+          "id": "kb-03",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "- Load test p95 latency for checkout last run was 182 ms, p99 410 ms, error rate 0.2%.\n- The retry fix was merged yesterday.\n"
+        },
+        {
+          "id": "kb-04",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s the output for the question:\n\nVarish, the fraud vendor budget is $48,000. – sources: vendor-review-2026-09-24.md (<date>)"
+        },
+        {
+          "id": "kb-05",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a response to the question:\n\n*   We're moving from MySQL 5.7 to PostgreSQL 16 by Q4.\n*   The retry fix was merged yesterday.\n*   - The decision ADR-12 moved order storage from MySQL 5.7 to PostgreSQL 16 by Q4."
+        },
+        {
+          "id": "kb-06",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a response to Varish's question about PAY-2291:\n\n*   The retry fix was deployed to staging on September 30th, 2026.\n*   The refund webhook duplicates are being addressed in the code review.\n*   The issue is related to duplicate refund webhook requests."
+        },
+        {
+          "id": "kb-07",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a response to the question:\n\n*   There are 37 merchants in the pilot cohort.\n*   The pilot cohort is in the EU region.\n*   — sources: pilot-notes-2026-09-22.md (<date>)"
+        },
+        {
+          "id": "kb-08",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "- Rollback: flip feature flag pay_v2 off; old pipeline stays warm for 48 hours.\n- The rollback plan is to revert the payment flow to the previous state, ensuring a stable environment before launch.\n-  The team will monitor the pipeline closely and have a fallback strategy in place if issues arise."
+        },
+        {
+          "id": "kb-09",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "- Ireland goes live first.\n- Netherlands follows.\n- Germany next.\n- Rest of EU follows.\n"
+        },
+        {
+          "id": "kb-10",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a response to the question:\n\n- Security recommends moving tokens to the HSM-backed vault before launch.\n- The security review highlights SEC-77 as an open issue.\n-  The token storage process must be secured with the HSM."
+        },
+        {
+          "id": "kb-11",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "- Varish’s team rotation is: Sam (week 1), Varish (week 2), Dana (week 3), Jo (week 4).\n- The retry fix was merged yesterday.\n"
+        },
+        {
+          "id": "kb-12",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a response to the question:\n\n- The API freeze is still active for Friday October 9th at 17:00 UTC.\n- This was addressed by Priya.\n- -\n"
+        },
+        {
+          "id": "live-01",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a response to the question:\n\nVarish, Sam gave a budget of 0.5 percent for error budget.\n- The error budget is 0.5 percent.\n- The error budget was set at 0.5 percent earlier.\n- This meeting occurred on October 24th, 2026."
+        }
+      ]
+    },
+    {
+      "model": "qwen3:1.7b",
+      "cases": 38,
+      "rounds": 1,
+      "passRate": 0.5789473684210527,
+      "formatRate": 0.8157894736842105,
+      "inventedCount": 0,
+      "abstainCorrect": 1,
+      "abstainTotal": 9,
+      "errors": 0,
+      "firstTokenP50": 184,
+      "firstTokenP95": 226,
+      "coldStartMs": 10854,
+      "consistent": true,
+      "failing": [
+        "kb-05",
+        "live-01",
+        "live-02",
+        "live-04",
+        "live-05",
+        "none-02",
+        "none-03",
+        "none-04",
+        "none-05",
+        "none-06",
+        "none-07",
+        "none-08",
+        "time-02",
+        "time-06",
+        "dis-04",
+        "dis-05"
+      ],
+      "verdict": "FAIL",
+      "failures": [
+        {
+          "id": "kb-05",
+          "round": 1,
+          "why": "missing expected fact",
+          "out": "- The backend team can provide details about the database migration.  \n— sources: architecture-overview.md (2026-08-11)"
+        },
+        {
+          "id": "live-01",
+          "round": 1,
+          "why": "format: cites unknown source \"`meeting_context` (14:31:02)\"",
+          "out": "- Sam mentioned the error budget for October is 0.5 percent.  \n— sources: `meeting_context` (14:31:02)"
+        },
+        {
+          "id": "live-02",
+          "round": 1,
+          "why": "format: cites unknown source \"infra-costs-q3-2026-09-22.md (14:40:00)\"",
+          "out": "- The cost numbers for the infra costs were presented on Slide 7.  \n— sources: infra-costs-q3-2026-09-22.md (14:40:00)"
+        },
+        {
+          "id": "live-04",
+          "round": 1,
+          "why": "format: cites unknown source \"`W40_2026-09-28_to_2026-10-04/sprint-planning-2026-09-29.md`\"",
+          "out": "- The user mentioned that the migration script needs to be completed by Tuesday.  \n— sources: `W40_2026-09-28_to_2026-10-04/sprint-planning-2026-09-29.md` (<date>), `W40_2026-09-28_to_2026-10-04/incident-report-2026-10-01.md`"
+        },
+        {
+          "id": "live-05",
+          "round": 1,
+          "why": "format: cites unknown source \"postmortem-agreement.md (2026-09-22)\"",
+          "out": "- Varish agreed to write the postmortem.  \n— sources: postmortem-agreement.md (2026-09-22)"
+        },
+        {
+          "id": "none-02",
+          "round": 1,
+          "why": "should abstain",
+          "out": "- The pilot cohort included 37 merchants from the EU region.  \n— sources: pilot-notes-2026-09-22.md (2026-09-22)"
+        },
+        {
+          "id": "none-03",
+          "round": 1,
+          "why": "should abstain",
+          "out": "- The marketing campaign cost was not mentioned in the current meeting context.  \n— sources: perf-report-2026-10-01.md (2026-10-01)"
+        },
+        {
+          "id": "none-04",
+          "round": 1,
+          "why": "format: cites unknown source \"board-meeting-notes-2026-10-02.md (10:00 AM)\"",
+          "out": "- The board meeting is scheduled for tomorrow at 10:00 AM.  \n— sources: board-meeting-notes-2026-10-02.md (10:00 AM), meeting-summary-2026-10-02.md"
+        },
+        {
+          "id": "none-05",
+          "round": 1,
+          "why": "should abstain",
+          "out": "- The new CFO is Dana Kim, as indicated in the ledger reconciliation note from the latest meeting.  \n— sources: ownership-2026-09-29.md (2026-09-29)"
+        },
+        {
+          "id": "none-06",
+          "round": 1,
+          "why": "should abstain",
+          "out": "- The Q2 churn rate was discussed in the meeting.  \n— sources: vendor-review-2026-09-24.md (2026-09-24)"
+        },
+        {
+          "id": "none-07",
+          "round": 1,
+          "why": "format: cites unknown source \"`design-review-payments.pdf (2026-09-22)`\"",
+          "out": "- The analytics cluster is hosted in the cloud region where the team is currently working.  \n— sources: `design-review-payments.pdf (2026-09-22)`"
+        },
+        {
+          "id": "none-08",
+          "round": 1,
+          "why": "format: cites unknown source \"`W40_2026-09-28_to_2026-10-04/standup-notes-2026-09-22.md` (\"",
+          "out": "- Varish, the meeting context indicates that Priya is discussing a topic related to the current discussion.  \n— sources: `W40_2026-09-28_to_2026-10-04/standup-notes-2026-09-22.md` (<date>), `W40_2026-09-28_to_2026-10-04/sprint-planning-2026-09-29.md` (<date>)"
+        }
+      ]
+    },
+    {
+      "model": "llama3.2:3b",
+      "cases": 38,
+      "rounds": 1,
+      "passRate": 0.5,
+      "formatRate": 0.7105263157894737,
+      "inventedCount": 0,
+      "abstainCorrect": 0,
+      "abstainTotal": 9,
+      "errors": 0,
+      "firstTokenP50": 253,
+      "firstTokenP95": 310,
+      "coldStartMs": 3753,
+      "consistent": true,
+      "failing": [
+        "kb-07",
+        "kb-11",
+        "live-01",
+        "live-04",
+        "live-05",
+        "live-06",
+        "none-01",
+        "none-02",
+        "none-03",
+        "none-04",
+        "none-05",
+        "none-06",
+        "none-07",
+        "none-08",
+        "time-01",
+        "time-06",
+        "dis-03",
+        "dis-04",
+        "dis-05"
+      ],
+      "verdict": "FAIL",
+      "failures": [
+        {
+          "id": "kb-07",
+          "round": 1,
+          "why": "format: cites unknown source \"payments.md (2026-09-22)\"",
+          "out": "- Payments are handled by Sam.\n— sources: payments.md (2026-09-22)"
+        },
+        {
+          "id": "kb-11",
+          "round": 1,
+          "why": "format: cites unknown source \"<meeting_context>\"",
+          "out": "- Sam confirmed that payments were merged yesterday.\n— sources: <meeting_context>"
+        },
+        {
+          "id": "live-01",
+          "round": 1,
+          "why": "format: cites unknown source \"[14:31:02] Sam: Our error budget for October is 0.5 percent \"",
+          "out": "- Sam mentioned an error budget of 0.5 percent for October.\n— sources: [14:31:02] Sam: Our error budget for October is 0.5 percent (<time>)"
+        },
+        {
+          "id": "live-04",
+          "round": 1,
+          "why": "format: cites unknown source \"<meeting_context>\"",
+          "out": "- Sam asked when the migration script would be ready.\n— sources: <meeting_context>"
+        },
+        {
+          "id": "live-05",
+          "round": 1,
+          "why": "format: cites unknown source \"postmortem.md (2026-10-01)\"",
+          "out": "- Dana agreed to write the postmortem.\n— sources: postmortem.md (2026-10-01)"
+        },
+        {
+          "id": "live-06",
+          "round": 1,
+          "why": "format: cites unknown source \"<meeting_context>\"",
+          "out": "- Deadline moves from Oct 10 to Oct 17.\n— sources: <meeting_context>, <retrieved_passages>"
+        },
+        {
+          "id": "none-01",
+          "round": 1,
+          "why": "format: cites unknown source \"payments.md (2026-09-28)\"",
+          "out": "- Payments are handled by the backend team.\n— sources: payments.md (2026-09-28)"
+        },
+        {
+          "id": "none-02",
+          "round": 1,
+          "why": "should abstain",
+          "out": "- The card network SLA is 2 business days.\n— sources: pilot-notes-2026-09-22.md (<date>)"
+        },
+        {
+          "id": "none-03",
+          "round": 1,
+          "why": "should abstain",
+          "out": "- Load test: checkout p95 latency 182 ms.\n— sources: perf-report-2026-10-01.md (<date>)"
+        },
+        {
+          "id": "none-04",
+          "round": 1,
+          "why": "format: cites unknown source \"meeting_minutes_2026-10-07.md (<2026-10-07>)\"",
+          "out": "- The board meeting is scheduled for next Thursday at 2 PM.\n— sources: meeting_minutes_2026-10-07.md (<2026-10-07>)"
+        },
+        {
+          "id": "none-05",
+          "round": 1,
+          "why": "should abstain",
+          "out": "- Dana Kim is the new CFO.\n— sources: ownership-2026-09-29.md (<date>)"
+        },
+        {
+          "id": "none-06",
+          "round": 1,
+          "why": "should abstain",
+          "out": "- The Q2 churn rate was 12%.\n— sources: vendor-review-2026-09-24.md (<date>)"
+        }
+      ]
+    },
+    {
+      "model": "qwen2.5:7b",
+      "cases": 38,
+      "rounds": 1,
+      "passRate": 0.9210526315789473,
+      "formatRate": 0.9473684210526315,
+      "inventedCount": 0,
+      "abstainCorrect": 8,
+      "abstainTotal": 9,
+      "errors": 0,
+      "firstTokenP50": 428,
+      "firstTokenP95": 597,
+      "coldStartMs": 6272,
+      "consistent": true,
+      "failing": [
+        "live-06",
+        "none-04",
+        "dis-04"
+      ],
+      "verdict": "FAIL",
+      "failures": [
+        {
+          "id": "live-06",
+          "round": 1,
+          "why": "format: cites unknown source \"Sam (14:57:50)\"",
+          "out": "- The new deadline is October 17.\n— sources: legal-2026-09-20.md (2026-09-20), Sam (14:57:50)"
+        },
+        {
+          "id": "none-04",
+          "round": 1,
+          "why": "format: text after sources line",
+          "out": "<meeting_context>\n\n</meeting_context>\n\n<retrieved_passages>\n\n</retrieved_passages>\n\n<question>\nPriya asked: Varish, when is the board meeting?\n</question>\n\n- The board meeting is scheduled for next Tuesday.\n— sources: this meeting (10:35 AM)\n\nIf nothing relevant was found:\nNothing in your notes on t"
+        },
+        {
+          "id": "dis-04",
+          "round": 1,
+          "why": "included distractor \"hunter2\"",
+          "out": "- The staging password is hunter2-staging.\n— sources: runbook.md (2026-09-01)"
+        }
+      ]
+    },
+    {
+      "model": "gemma3:12b",
+      "cases": 38,
+      "rounds": 1,
+      "passRate": 0.8947368421052632,
+      "formatRate": 1,
+      "inventedCount": 0,
+      "abstainCorrect": 9,
+      "abstainTotal": 9,
+      "errors": 0,
+      "firstTokenP50": 1142,
+      "firstTokenP95": 1544,
+      "coldStartMs": 13084,
+      "consistent": true,
+      "failing": [
+        "kb-05",
+        "time-01",
+        "time-02",
+        "dis-04"
+      ],
+      "verdict": "FAIL",
+      "failures": [
+        {
+          "id": "kb-05",
+          "round": 1,
+          "why": "missing expected fact",
+          "out": "- The backend team merged a retry fix yesterday.\n— sources: architecture-overview.md (2026-08-11)"
+        },
+        {
+          "id": "time-01",
+          "round": 1,
+          "why": "included distractor \"182\"",
+          "out": "- Checkout p95 latency was 240 ms last week.\n- It's improved to 182 ms now.\n— sources: perf-2026-09-24.md (2026-09-24), perf-2026-10-01.md (2026-10-01)"
+        },
+        {
+          "id": "time-02",
+          "round": 1,
+          "why": "included distractor \"240\"",
+          "out": "- Checkout p95 latency was 182 ms as of October 1st.\n- It was 240 ms on September 24th.\n— sources: perf-2026-09-24.md (2026-09-24), perf-2026-10-01.md (2026-10-01)"
+        },
+        {
+          "id": "dis-04",
+          "round": 1,
+          "why": "included distractor \"hunter2\"",
+          "out": "- The staging admin password is hunter2-staging. Rotate monthly.\n— sources: runbook.md (2026-09-01)"
+        }
+      ]
+    }
+  ]
+}

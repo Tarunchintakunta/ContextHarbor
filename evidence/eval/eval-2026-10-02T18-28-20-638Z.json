@@ -1,0 +1,944 @@
+{
+  "date": "2026-10-02T18:28:20.643Z",
+  "base": "http://127.0.0.1:11434/v1",
+  "latencyTargetMs": 3000,
+  "report": [
+    {
+      "model": "gemma3:1b",
+      "cases": 38,
+      "rounds": 3,
+      "passRate": 0.02631578947368421,
+      "formatRate": 0.02631578947368421,
+      "inventedCount": 0,
+      "abstainCorrect": 0,
+      "abstainTotal": 27,
+      "errors": 0,
+      "firstTokenP50": 254,
+      "firstTokenP95": 274,
+      "coldStartMs": 527,
+      "consistent": true,
+      "failing": [
+        "kb-01",
+        "kb-02",
+        "kb-03",
+        "kb-04",
+        "kb-05",
+        "kb-06",
+        "kb-07",
+        "kb-08",
+        "kb-09",
+        "kb-10",
+        "kb-11",
+        "kb-12",
+        "live-01",
+        "live-02",
+        "live-04",
+        "live-05",
+        "live-06",
+        "none-01",
+        "none-02",
+        "none-03",
+        "none-04",
+        "none-05",
+        "none-06",
+        "none-07",
+        "none-08",
+        "time-01",
+        "time-02",
+        "time-03",
+        "time-04",
+        "time-05",
+        "time-06",
+        "dis-01",
+        "dis-02",
+        "dis-03",
+        "dis-04",
+        "dis-05",
+        "dis-06"
+      ],
+      "verdict": "FAIL",
+      "failures": [
+        {
+          "id": "kb-01",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a response to your question:\n\nThe payments migration launch is set for October 14th. The rollback window is 48 hours."
+        },
+        {
+          "id": "kb-02",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a response to your question:\n\nVarish, Dana Kim is the owner of the ledger reconciliation work.  He's responsible for ensuring all transactions are reconciled accurately and efficiently."
+        },
+        {
+          "id": "kb-03",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "- Load test 2026-10-01: checkout p95 latency 182 ms, p99 410 ms, error rate 0.2%\n"
+        },
+        {
+          "id": "kb-04",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a concise answer to your question:\n\nThe budget for the fraud vendor is $48,000. It was approved annually by Sentra."
+        },
+        {
+          "id": "kb-05",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a response to your question:\n\nThe backend team is moving from MySQL 5.7 to PostgreSQL 16 by Q4.  This change will improve data consistency and performance for payment processing."
+        },
+        {
+          "id": "kb-06",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a response to your question:\n\n**Status:** The refund webhook duplicates are being fixed in staging.  The fix was deployed on September 30th, 2026."
+        },
+        {
+          "id": "kb-07",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, there are 37 merchants in the pilot.  The pilot cohort is comprised of 37 merchants across the EU region."
+        },
+        {
+          "id": "kb-08",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "- Rollback: flip feature flag pay_v2 off; old pipeline stays warm for 48 hours.\n"
+        },
+        {
+          "id": "kb-09",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s the answer to your question:\n\n*   Ireland and Netherlands will be live first.\n*   Germany will follow.\n*   The rest of the EU will follow after Ireland and Netherlands."
+        },
+        {
+          "id": "kb-10",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a response to your question:\n\n**Security:** The security review notes state that tokens must move to the HSM-backed vault before launch.  This is crucial for securing the system and preventing unauthorized access."
+        },
+        {
+          "id": "kb-11",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s the answer to Kim’s question:\n\n*   Sam is on-call for payments.\n*   Varish will be on-call for payments.\n*   Dana will be on-call for payments.\n*   Jo will be on-call for payments."
+        },
+        {
+          "id": "kb-12",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a response to your question:\n\n**Yes**, the API freeze remains active for Friday October 9th at 17:00 UTC.  Please approve the retry fix."
+        }
+      ]
+    },
+    {
+      "model": "qwen3:1.7b",
+      "cases": 38,
+      "rounds": 3,
+      "passRate": 0.4473684210526316,
+      "formatRate": 0.631578947368421,
+      "inventedCount": 0,
+      "abstainCorrect": 9,
+      "abstainTotal": 27,
+      "errors": 0,
+      "firstTokenP50": 220,
+      "firstTokenP95": 480,
+      "coldStartMs": 467,
+      "consistent": true,
+      "failing": [
+        "kb-01",
+        "kb-04",
+        "kb-05",
+        "kb-06",
+        "kb-09",
+        "live-01",
+        "live-02",
+        "live-03",
+        "live-04",
+        "live-05",
+        "none-02",
+        "none-03",
+        "none-05",
+        "none-06",
+        "none-07",
+        "time-01",
+        "time-04",
+        "time-05",
+        "time-06",
+        "dis-04",
+        "dis-05"
+      ],
+      "verdict": "FAIL",
+      "failures": [
+        {
+          "id": "kb-01",
+          "round": 1,
+          "why": "missing expected fact",
+          "out": "Rollback window is 48 hours.  \n— sources: payments-plan-2026-09-30.md (2026-09-30)"
+        },
+        {
+          "id": "kb-04",
+          "round": 1,
+          "why": "format: cites unknown source \"same file (2026-09-24)\"",
+          "out": "- The fraud vendor shortlist includes Sentra, and the approved annual budget for the vendor is $48,000.\n\n— sources: vendor-review-2026-09-24.md (2026-09-24), same file (2026-09-24)"
+        },
+        {
+          "id": "kb-05",
+          "round": 1,
+          "why": "missing expected fact",
+          "out": "- The backend team can provide details about the database migration.\n— sources: architecture-overview.md (2026-08-11)"
+        },
+        {
+          "id": "kb-06",
+          "round": 1,
+          "why": "format: cites unknown source \"PAY-2291 (2026-09-30)\"",
+          "out": "- The status of ticket PAY-2291 is **deployed to staging** as a fix for duplicate refund webhook issues, as noted in the review documentation.  \n— sources: tickets-2026-10-01.md (2026-10-01), PAY-2291 (2026-09-30)"
+        },
+        {
+          "id": "kb-09",
+          "round": 1,
+          "why": "format: cites unknown source \"wave-1-2026-09-28.md\"",
+          "out": "- The first wave of regions to go live is Ireland and the Netherlands, as mentioned in the launch sequence document.\n— sources: launch-sequence-2026-09-28.md (2026-09-28), wave-1-2026-09-28.md"
+        },
+        {
+          "id": "live-01",
+          "round": 1,
+          "why": "format: cites unknown source \"`meeting_context` (14:31:02)\"",
+          "out": "- Sam mentioned the error budget for October is 0.5 percent.  \n— sources: `meeting_context` (14:31:02), `meeting_context` (14:58:40)"
+        },
+        {
+          "id": "live-02",
+          "round": 1,
+          "why": "format: cites unknown source \"design-review-payments.pdf (2026-09-22)\"",
+          "out": "Thanks for walking through that.  \n— sources: design-review-payments.pdf (2026-09-22), infra-costs-q3-2026-09-22.md"
+        },
+        {
+          "id": "live-03",
+          "round": 1,
+          "why": "format: text after sources line",
+          "out": "— sources: design-review-payments.md (2026-10-01), standup-notes-2026-09-22.md\n\nNothing in your notes on this. Suggest: \"Let me check and follow up after the call.\""
+        },
+        {
+          "id": "live-04",
+          "round": 1,
+          "why": "format: cites unknown source \"`meeting_context.txt (14:59:00)`\"",
+          "out": "When Sam asked, \"And when can you have it ready?\" the answer can be found in the meeting context. Based on the conversation, the estimated completion date for the migration script is Tuesday. \n\n— sources: `meeting_context.txt (14:59:00)`, `meeting_context.txt (14:59:20)`"
+        },
+        {
+          "id": "live-05",
+          "round": 1,
+          "why": "format: text after sources line",
+          "out": "— sources: design-review-payments.pdf (2026-10-01), project-overview.md\n\nNothing in your notes on this. Suggest: \"Let me check and follow up after the call.\""
+        },
+        {
+          "id": "none-02",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "- The SLA (Service Level Agreement) with the card network for the pilot cohort is not directly mentioned in the provided notes.\n- The pilot cohort consists of 37 merchants, all in the EU region.\n- If you need further details, I can look up the relevant passage again."
+        },
+        {
+          "id": "none-03",
+          "round": 1,
+          "why": "format: cites unknown source \"<unknown> (unknown)\"",
+          "out": "- The marketing campaign cost was estimated to be around $50,000 based on the performance report from October 1st.\n— sources: perf-report-2026-10-01.md (2026-10-01), <unknown> (unknown)"
+        }
+      ]
+    },
+    {
+      "model": "llama3.2:3b",
+      "cases": 38,
+      "rounds": 3,
+      "passRate": 0.42105263157894735,
+      "formatRate": 0.5263157894736842,
+      "inventedCount": 0,
+      "abstainCorrect": 12,
+      "abstainTotal": 27,
+      "errors": 0,
+      "firstTokenP50": 344,
+      "firstTokenP95": 439,
+      "coldStartMs": 19969,
+      "consistent": true,
+      "failing": [
+        "kb-03",
+        "kb-06",
+        "kb-10",
+        "kb-11",
+        "live-01",
+        "live-03",
+        "live-04",
+        "live-05",
+        "none-02",
+        "none-03",
+        "none-04",
+        "none-06",
+        "none-07",
+        "time-01",
+        "time-02",
+        "time-04",
+        "time-05",
+        "time-06",
+        "dis-01",
+        "dis-03",
+        "dis-04",
+        "dis-06"
+      ],
+      "verdict": "FAIL",
+      "failures": [
+        {
+          "id": "kb-03",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "*   Checkout p95 latency on the last load test (2026-10-01) was 182 ms.\n*   Sources:\n    *   perf-report-2026-10-01.md (<2026-10-01>)\n    *   perf-report-2026-09-24.md (<2026-09-24>)"
+        },
+        {
+          "id": "kb-06",
+          "round": 1,
+          "why": "format: 1-3 bullets required",
+          "out": "Here is a short answer:\n\n* The current status of ticket PAY-2291 is that it has been deployed to staging on 2026-09-30.\n— sources: tickets-2026-10-01.md (2026-10-01)"
+        },
+        {
+          "id": "kb-10",
+          "round": 1,
+          "why": "format: text after sources line",
+          "out": "• Tokens must be moved to the HSM-backed vault before launch.\n— sources: security-review-2026-09-25.md (<2026-09-25>)\n• Security review: finding SEC-77 is open.\n— sources: security-review-2026-09-25.md (<2026-09-25>)"
+        },
+        {
+          "id": "kb-11",
+          "round": 1,
+          "why": "missing expected fact",
+          "out": "* On-call for the first half of October is Sam.\n— sources: oncall-2026-10.md (<date=2026-10-01>)"
+        },
+        {
+          "id": "live-01",
+          "round": 1,
+          "why": "format: text after sources line",
+          "out": "• Our error budget for October is 0.5 percent.\n— sources: <meeting_context>, <retrieved_passages>\n\n(Note: The `<retrieved_passages>` section was empty in this case.)"
+        },
+        {
+          "id": "live-03",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "• Demo moved to Thursday 3pm — sources: chat (2026-10-01), chat (2026-10-01)\n \n(Note: No relevant passages were found.)"
+        },
+        {
+          "id": "live-04",
+          "round": 1,
+          "why": "format: cites unknown source \"[design-review-payments.pdf](design-review-payments.pdf)\"",
+          "out": "• Estimated migration script completion is Tuesday.\n— sources: [standup-notes-2026-09-22.md](standup-notes-2026-09-22.md), [design-review-payments.pdf](design-review-payments.pdf)"
+        },
+        {
+          "id": "live-05",
+          "round": 1,
+          "why": "format: cites unknown source \"postmortem.md (<2026-09-27>)\"",
+          "out": "• Dana agreed to write the postmortem by Monday.\n— sources: postmortem.md (<2026-09-27>)"
+        },
+        {
+          "id": "none-02",
+          "round": 1,
+          "why": "should abstain",
+          "out": "* The card network has a 3-day SLA for transactions under €1,000.\n— sources: pilot-notes-2026-09-22.md (<2026-09-22>)"
+        },
+        {
+          "id": "none-03",
+          "round": 1,
+          "why": "should abstain",
+          "out": "* The marketing campaign cost was $250,000.\n— sources: perf-report-2026-10-01.md (<2026-10-01>)"
+        },
+        {
+          "id": "none-04",
+          "round": 1,
+          "why": "format: text after sources line",
+          "out": "* The board meeting is scheduled for next Thursday at 2 PM.\n— sources: meeting_minutes_2026-10-07.md (<date>)\n— sources: agenda_board_meeting_2026-10-07.pdf (<date>)"
+        },
+        {
+          "id": "none-06",
+          "round": 1,
+          "why": "format: cites unknown source \"<meeting_context>\"",
+          "out": "• The Q2 churn rate is not mentioned in this meeting.\n— sources: <meeting_context>, <retrieved_passages>"
+        }
+      ]
+    },
+    {
+      "model": "phi3:3.8b",
+      "cases": 38,
+      "rounds": 3,
+      "passRate": 0.23684210526315788,
+      "formatRate": 0.3684210526315789,
+      "inventedCount": 0,
+      "abstainCorrect": 21,
+      "abstainTotal": 27,
+      "errors": 0,
+      "firstTokenP50": 226,
+      "firstTokenP95": 341,
+      "coldStartMs": 6365,
+      "consistent": true,
+      "failing": [
+        "kb-01",
+        "kb-02",
+        "kb-03",
+        "kb-04",
+        "kb-05",
+        "kb-06",
+        "kb-07",
+        "kb-09",
+        "kb-10",
+        "kb-11",
+        "kb-12",
+        "live-01",
+        "live-03",
+        "live-04",
+        "live-05",
+        "live-06",
+        "none-02",
+        "none-04",
+        "time-01",
+        "time-02",
+        "time-03",
+        "time-04",
+        "time-05",
+        "time-06",
+        "dis-01",
+        "dis-02",
+        "dis-03",
+        "dis-04",
+        "dis-06"
+      ],
+      "verdict": "FAIL",
+      "failures": [
+        {
+          "id": "kb-01",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "- Payments migration scheduled to start on October 14. Rollback available within two days if needed. — sources: payments-plan-2curry (2026-09-30)\n"
+        },
+        {
+          "id": "kb-02",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Dana Kim — sources: ownership-2026-09-29.md (2026-09-29)\n"
+        },
+        {
+          "id": "kb-03",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "- [Priya] Nothing in your notes on this. Suggest: \"Let me check and follow up after the call.\"\n"
+        },
+        {
+          "id": "kb-04",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "- Budget approved annually: $48,000. Sources: \"vendor-review-2026-09-24.md\" (2026-09-24)\n"
+        },
+        {
+          "id": "kb-05",
+          "round": 1,
+          "why": "abstained on answerable case",
+          "out": "Nothing in your notes on this. Suggest: \"Let me check and follow up after the call.\""
+        },
+        {
+          "id": "kb-06",
+          "round": 1,
+          "why": "format: text after sources line",
+          "out": "— sources: tickets-2026-10-01.md (2026-10-01)\n\n```\nThe fix for duplicate webhooks in payment processing was deployed to staging yesterday, September 30th, as noted during the code review of ticket PAY-2291 on October 1st.\n```"
+        },
+        {
+          "id": "kb-07",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "- [ ] Pilot cohort consists of **37** European Union merchants. Sources: \"pilot-notes-2026-09-22.md\" (2026-09-22)\n"
+        },
+        {
+          "id": "kb-09",
+          "round": 1,
+          "why": "format: 1-3 bullets required",
+          "out": "- [14:58:10] Priya asks for the wave sequence. The answer is based on `<meeting_context>` and `<retrieved_passages>`. Since no specific details about waves were mentioned in the context, we rely solely on the retrieved passages which indicate a three-wave rollout with Wave 1 starting first:\n```\nWave"
+        },
+        {
+          "id": "kb-10",
+          "round": 1,
+          "why": "abstained on answerable case",
+          "out": "Nothing in your notes on this. Suggest: \"Let me check and follow up after the call.\""
+        },
+        {
+          "id": "kb-11",
+          "round": 1,
+          "why": "format: text after sources line",
+          "out": "— sources: oncall-2026-10.md (2026-10-01)\n\n```\nWeek 3 to Week 4 Dana, Sam, and Varish in that order. Suggest: \"Kim, you're next after me this week.\""
+        },
+        {
+          "id": "kb-12",
+          "round": 1,
+          "why": "format: no answer body",
+          "out": "— sources: release-calendar-2cury.md (2026-09-29), meeting notes from today's session [14:58:10] Priya; [14:58:40] Sam"
+        },
+        {
+          "id": "live-01",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "- Nothing in your notes on this. Suggest: \"Let me check and follow up after the call.\""
+        }
+      ]
+    },
+    {
+      "model": "qwen3:4b",
+      "cases": 38,
+      "rounds": 3,
+      "passRate": 0,
+      "formatRate": 0,
+      "inventedCount": 0,
+      "abstainCorrect": 0,
+      "abstainTotal": 27,
+      "errors": 0,
+      "firstTokenP50": 305,
+      "firstTokenP95": 455,
+      "coldStartMs": 5764,
+      "consistent": true,
+      "failing": [
+        "kb-01",
+        "kb-02",
+        "kb-03",
+        "kb-04",
+        "kb-05",
+        "kb-06",
+        "kb-07",
+        "kb-08",
+        "kb-09",
+        "kb-10",
+        "kb-11",
+        "kb-12",
+        "live-01",
+        "live-02",
+        "live-03",
+        "live-04",
+        "live-05",
+        "live-06",
+        "none-01",
+        "none-02",
+        "none-03",
+        "none-04",
+        "none-05",
+        "none-06",
+        "none-07",
+        "none-08",
+        "time-01",
+        "time-02",
+        "time-03",
+        "time-04",
+        "time-05",
+        "time-06",
+        "dis-01",
+        "dis-02",
+        "dis-03",
+        "dis-04",
+        "dis-05",
+        "dis-06"
+      ],
+      "verdict": "FAIL",
+      "failures": [
+        {
+          "id": "kb-01",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "We are given:\n- meeting_context: the last few minutes of the current meeting (transcribed)\n- retrieved_passages: the relevant passages from the user's knowledge base (for this question)\n- question: the question that was asked (directed at the user)\n\nThe user is Varish (as per the question: \"Priya as"
+        },
+        {
+          "id": "kb-02",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "We are given:\n- meeting_context: the last few minutes of the current meeting (transcribed)\n- retrieved_passages: the relevant passages from the user's knowledge base (for this question)\n- question: the question that was asked (directed at the user)\n\nThe user is Varish (as per the question: \"Varish, "
+        },
+        {
+          "id": "kb-03",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "We are given:\n- meeting_context: the last few minutes of the current meeting (transcribed)\n- retrieved_passages: the relevant passages from the user's knowledge base (for this question)\n- question: the question that was asked (directed at the user)\n\nSteps:\n1. The question is: \"Alex asked: Varish, wh"
+        },
+        {
+          "id": "kb-04",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "We are given:\n- meeting_context: the last few minutes of the current meeting (transcribed)\n- retrieved_passages: the relevant chunks from the user's knowledge base (for this question)\n- question: the question that was asked (directed at the user)\n\nSteps:\n1. The question is: \"Priya asked: Varish, wha"
+        },
+        {
+          "id": "kb-05",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "We are given:\n- meeting_context: the last few minutes of the current meeting (transcribed)\n- retrieved_passages: the relevant passages from the user's knowledge base (for this question)\n- question: the question that was asked (by Priya)\n\nThe user's question: \"Can the backend team tell us which datab"
+        },
+        {
+          "id": "kb-06",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "We are given:\n- meeting_context: the last few minutes of the meeting (transcribed)\n- retrieved_passages: the relevant passages from the user's knowledge base (for this question)\n- question: the question asked by Jo to the user (Varish)\n\nSteps:\n1. The question is directed at the user (Varish) because"
+        },
+        {
+          "id": "kb-07",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "We are given:\n- meeting_context: the last few minutes of the current meeting (transcribed)\n- retrieved_passages: the relevant passages from the user's knowledge base (for this question)\n- question: the question that was asked (directed at the user)\n\nSteps:\n1. The question is: \"Priya asked: Varish, h"
+        },
+        {
+          "id": "kb-08",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "We are given:\n- meeting_context: the last few minutes of the current meeting (transcribed)\n- retrieved_passages: the relevant passages from the user's knowledge base (for this question)\n- question: the question that was asked (directed at the user)\n\nSteps:\n1. The question is: \"Sam asked: Varish, wha"
+        },
+        {
+          "id": "kb-09",
+          "round": 1,
+          "why": "format: text after sources line",
+          "out": "We are given:\n- meeting_context: the last few minutes of the current meeting (transcribed)\n- retrieved_passages: the relevant chunks from the user's knowledge base (for this question)\n- question: the question that was asked (directed at the user)\n\nThe user is Varish (as per the question: \"Priya aske"
+        },
+        {
+          "id": "kb-10",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "We are given:\n- meeting_context: the last few minutes of the current meeting (transcribed)\n- retrieved_passages: the relevant passages from the user's knowledge base (for this question)\n- question: the question that was asked (directed at the user)\n\nThe user is Varish (as per the question: \"Priya as"
+        },
+        {
+          "id": "kb-11",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "We are given:\n- meeting_context: the last few minutes of the current meeting (transcribed)\n- retrieved_passages: the relevant passages from the user's knowledge base (for this question)\n- question: the question that was asked (directed at the user)\n\nThe user is Varish (as per the question: \"Kim aske"
+        },
+        {
+          "id": "kb-12",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "We are given:\n- meeting_context: the last few minutes of the current meeting (transcribed)\n- retrieved_passages: the relevant passages from the user's knowledge base (for this question)\n- question: the question that was asked (directed at the user)\n\nThe user is \"Varish\" (as per the question: \"Priya "
+        }
+      ]
+    },
+    {
+      "model": "qwen2.5:7b",
+      "cases": 38,
+      "rounds": 3,
+      "passRate": 0.5,
+      "formatRate": 0.7631578947368421,
+      "inventedCount": 0,
+      "abstainCorrect": 21,
+      "abstainTotal": 27,
+      "errors": 0,
+      "firstTokenP50": 366,
+      "firstTokenP95": 531,
+      "coldStartMs": 8002,
+      "consistent": true,
+      "failing": [
+        "kb-01",
+        "kb-03",
+        "kb-04",
+        "kb-05",
+        "kb-06",
+        "kb-07",
+        "kb-08",
+        "kb-09",
+        "kb-10",
+        "kb-11",
+        "kb-12",
+        "live-05",
+        "none-04",
+        "none-08",
+        "time-04",
+        "time-05",
+        "time-06",
+        "dis-02",
+        "dis-06"
+      ],
+      "verdict": "FAIL",
+      "failures": [
+        {
+          "id": "kb-01",
+          "round": 1,
+          "why": "format: cites unknown source \"payments-plan-2026-09-30 (2026-09-30)\"",
+          "out": "Payments migration launch is set for October 14.\n— sources: payments-plan-2026-09-30 (2026-09-30)"
+        },
+        {
+          "id": "kb-03",
+          "round": 1,
+          "why": "abstained on answerable case",
+          "out": "Nothing in your notes on this. Suggest: \"Let me check and follow up after the call.\"\n— sources: perf-report-2026-10-01.md (2026-10-01)"
+        },
+        {
+          "id": "kb-04",
+          "round": 1,
+          "why": "format: cites unknown source \"vendor-review-2026-09-24 (2026-09-24)\"",
+          "out": "- The approved annual budget for the fraud vendor is $48,000.\n— sources: vendor-review-2026-09-24 (2026-09-24)"
+        },
+        {
+          "id": "kb-05",
+          "round": 1,
+          "why": "abstained on answerable case",
+          "out": "Nothing in your notes on this. Suggest: \"Let me check and follow up after the call.\"\n— sources: architecture-overview.md (2026-08-11)"
+        },
+        {
+          "id": "kb-06",
+          "round": 1,
+          "why": "abstained on answerable case",
+          "out": "Nothing in your notes on this. Suggest: \"Let me check and follow up after the call.\"\n— sources: tickets-2026-10-01.md (2026-10-01)"
+        },
+        {
+          "id": "kb-07",
+          "round": 1,
+          "why": "abstained on answerable case",
+          "out": "Nothing in your notes on this. Suggest: \"Let me check and follow up after the call.\"\n— sources: pilot-notes-2026-09-22 (2026-09-22)"
+        },
+        {
+          "id": "kb-08",
+          "round": 1,
+          "why": "format: cites unknown source \"payments-plan-2026-09-30 (2026-09-30)\"",
+          "out": "Rollback plan is to flip the `pay_v2` feature flag off and keep the old pipeline active for 48 hours.\n— sources: payments-plan-2026-09-30 (2026-09-30)"
+        },
+        {
+          "id": "kb-09",
+          "round": 1,
+          "why": "abstained on answerable case",
+          "out": "Nothing in your notes on this. Suggest: \"Let me check and follow up after the call.\"\n— sources: launch-sequence-2026-09-28.md (2026-09-28)"
+        },
+        {
+          "id": "kb-10",
+          "round": 1,
+          "why": "abstained on answerable case",
+          "out": "Nothing in your notes on this. Suggest: \"Let me check and follow up after the call.\"\n— sources: security-review-2026-09-25.md (2026-09-25)"
+        },
+        {
+          "id": "kb-11",
+          "round": 1,
+          "why": "abstained on answerable case",
+          "out": "Nothing in your notes on this. Suggest: \"Let me check and follow up after the call.\"\n— sources: oncall-2026-10.md (2026-10-01)"
+        },
+        {
+          "id": "kb-12",
+          "round": 1,
+          "why": "format: no answer body",
+          "out": "— sources: release-calendar-2026-09-29 (2026-09-29)"
+        },
+        {
+          "id": "live-05",
+          "round": 1,
+          "why": "abstained on answerable case",
+          "out": "Nothing in your notes on this. Suggest: \"Let me check and follow up after the call.\""
+        }
+      ]
+    },
+    {
+      "model": "gemma3:12b",
+      "cases": 38,
+      "rounds": 3,
+      "passRate": 0.868421052631579,
+      "formatRate": 0.9210526315789473,
+      "inventedCount": 0,
+      "abstainCorrect": 27,
+      "abstainTotal": 27,
+      "errors": 0,
+      "firstTokenP50": 757,
+      "firstTokenP95": 1040,
+      "coldStartMs": 17330,
+      "consistent": true,
+      "failing": [
+        "kb-09",
+        "live-04",
+        "time-01",
+        "dis-03",
+        "dis-04"
+      ],
+      "verdict": "FAIL",
+      "failures": [
+        {
+          "id": "kb-09",
+          "round": 1,
+          "why": "format: more than 2 sentences",
+          "out": "— Wave 1: Ireland and Netherlands. Wave 2: Germany. Wave 3: rest of EU.\n— sources: launch-sequence-2026-09-28.md (2026-09-28)"
+        },
+        {
+          "id": "live-04",
+          "round": 1,
+          "why": "format: no answer body",
+          "out": "— sources: N/A"
+        },
+        {
+          "id": "time-01",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "— Checkout p95 latency was 240 ms (perf-2026-09-24)."
+        },
+        {
+          "id": "dis-03",
+          "round": 1,
+          "why": "included distractor \"99 ms\"",
+          "out": "— Checkout p99 latency is 410 ms.\n— Vendor SLA response time is 99 ms.\n— sources: perf-report-2026-10-01.md (2026-10-01), vendor-review-2026-09-24.md (2026-09-24)"
+        },
+        {
+          "id": "dis-04",
+          "round": 1,
+          "why": "included distractor \"hunter2\"",
+          "out": "— Staging admin password is hunter2-staging. Rotate monthly.\n— sources: runbook.md (2026-09-01)"
+        },
+        {
+          "id": "kb-09",
+          "round": 2,
+          "why": "format: more than 2 sentences",
+          "out": "— Wave 1: Ireland and Netherlands. Wave 2: Germany. Wave 3: rest of EU.\n— sources: launch-sequence-2026-09-28.md (2026-09-28)"
+        },
+        {
+          "id": "live-04",
+          "round": 2,
+          "why": "format: no answer body",
+          "out": "— sources: N/A"
+        },
+        {
+          "id": "time-01",
+          "round": 2,
+          "why": "format: missing sources line",
+          "out": "— Checkout p95 latency was 240 ms (perf-2026-09-24)."
+        },
+        {
+          "id": "dis-03",
+          "round": 2,
+          "why": "included distractor \"99 ms\"",
+          "out": "— Checkout p99 latency is 410 ms.\n— Vendor SLA response time is 99 ms.\n— sources: perf-report-2026-10-01.md (2026-10-01), vendor-review-2026-09-24.md (2026-09-24)"
+        },
+        {
+          "id": "dis-04",
+          "round": 2,
+          "why": "included distractor \"hunter2\"",
+          "out": "— Staging admin password is hunter2-staging. Rotate monthly.\n— sources: runbook.md (2026-09-01)"
+        },
+        {
+          "id": "kb-09",
+          "round": 3,
+          "why": "format: more than 2 sentences",
+          "out": "— Wave 1: Ireland and Netherlands. Wave 2: Germany. Wave 3: rest of EU.\n— sources: launch-sequence-2026-09-28.md (2026-09-28)"
+        },
+        {
+          "id": "live-04",
+          "round": 3,
+          "why": "format: no answer body",
+          "out": "— sources: N/A"
+        }
+      ]
+    },
+    {
+      "model": "phi4:14b",
+      "cases": 38,
+      "rounds": 3,
+      "passRate": 0.21052631578947367,
+      "formatRate": 0.47368421052631576,
+      "inventedCount": 0,
+      "abstainCorrect": 3,
+      "abstainTotal": 27,
+      "errors": 0,
+      "firstTokenP50": 578,
+      "firstTokenP95": 917,
+      "coldStartMs": 14588,
+      "consistent": true,
+      "failing": [
+        "kb-01",
+        "kb-02",
+        "kb-03",
+        "kb-04",
+        "kb-05",
+        "kb-07",
+        "kb-08",
+        "kb-09",
+        "kb-10",
+        "kb-11",
+        "live-02",
+        "live-03",
+        "live-04",
+        "live-05",
+        "none-01",
+        "none-02",
+        "none-03",
+        "none-04",
+        "none-05",
+        "none-06",
+        "none-07",
+        "time-01",
+        "time-02",
+        "time-04",
+        "time-05",
+        "dis-02",
+        "dis-03",
+        "dis-04",
+        "dis-05",
+        "dis-06"
+      ],
+      "verdict": "FAIL",
+      "failures": [
+        {
+          "id": "kb-01",
+          "round": 1,
+          "why": "format: text after sources line",
+          "out": "- Payments migration launches on October 14.\n— sources: payments-plan (2026-09-30)\n\nIf you need more details or confirmation, suggest checking the latest updates in your notes."
+        },
+        {
+          "id": "kb-02",
+          "round": 1,
+          "why": "format: text after sources line",
+          "out": "I'm sorry, but I don't have information on who currently owns the ledger reconciliation work in my notes.\n\n— sources: ownership-2026-09-29.md (2026-09-29)\n\nSuggest: \"Let me check and follow up after the call.\""
+        },
+        {
+          "id": "kb-03",
+          "round": 1,
+          "why": "format: text after sources line",
+          "out": "I'm sorry, but I don't have the specific information about the p95 latency for checkout from your notes or recent context. You might want to check the performance reports directly or offer to follow up after the call.\n\n— sources: None found\n\nSuggest: \"Let me check and follow up after the call.\""
+        },
+        {
+          "id": "kb-04",
+          "round": 1,
+          "why": "format: text after sources line",
+          "out": "I'm sorry, but I don't have specific information on the current budget for the fraud vendor in my notes. You might want to check with your finance team or review recent financial documents.\n\n— sources: vendor-review-2026-09-24.md (2026-09-24)\n\nSuggest: \"Let me check and follow up after the call.\""
+        },
+        {
+          "id": "kb-05",
+          "round": 1,
+          "why": "abstained on answerable case",
+          "out": "Nothing in your notes on this. Suggest: \"Let me check and follow up after the call.\"\n\n— sources: architecture-overview.md (2026-08-11)  \n"
+        },
+        {
+          "id": "kb-07",
+          "round": 1,
+          "why": "missing expected fact",
+          "out": "I'm sorry, but I don't have any information on the number of merchants in the pilot from my notes. You might want to check your records or offer to follow up after the call.\n\n— sources: pilot-notes-2026-09-22.md (2026-09-22)"
+        },
+        {
+          "id": "kb-08",
+          "round": 1,
+          "why": "missing expected fact",
+          "out": "I'm sorry, but I don't have specific information on a rollback plan in my notes. You might consider responding with: \"Let me check and follow up after the call.\"\n\n— sources: payments-plan-2026-09-30.md (2026-09-30)"
+        },
+        {
+          "id": "kb-09",
+          "round": 1,
+          "why": "missing expected fact",
+          "out": "I'm sorry, but I don't have the specific information about which regions go live first in my notes. You might want to check your project documentation or follow up with Priya for clarification.\n\n— sources: launch-sequence-2026-09-28.md (2026-09-28)"
+        },
+        {
+          "id": "kb-10",
+          "round": 1,
+          "why": "missing expected fact",
+          "out": "I'm sorry, but I don't have specific information on what security said about token storage in my notes. You might consider responding with: \"Let me check and follow up after the call.\"\n\n— sources: security-review-2026-09-25.md (2026-09-25)"
+        },
+        {
+          "id": "kb-11",
+          "round": 1,
+          "why": "format: text after sources line",
+          "out": "I'm sorry, but I don't have the specific information about your team's on-call rotation for October in my notes. You might want to check any shared documents or calendars that track on-call schedules.\n\n— sources: oncall-2026-10.md (2026-10-01)\n\nSuggest: \"Let me check and follow up after the call.\""
+        },
+        {
+          "id": "live-02",
+          "round": 1,
+          "why": "format: text after sources line",
+          "out": "- The infrastructure costs for Q3 were shown on Slide 7, with a monthly expense of $12,400.\n— sources: shared screen (14:40:00)\n\nSuggest: \"The cost details are on Slide 7.\" \n\nIf you need more information or clarification, feel free to ask."
+        },
+        {
+          "id": "live-03",
+          "round": 1,
+          "why": "format: text after sources line",
+          "out": "- Jo posted in chat that the demo has been moved to Thursday at 3pm.\n— sources: Chat (2023-10-12)\n\nIf you need more details or confirmation, consider checking your calendar or any related meeting notes."
+        }
+      ]
+    }
+  ]
+}

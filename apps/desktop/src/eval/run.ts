@@ -35,12 +35,14 @@ export function grade(c: EvalCase, raw: string) {
   if (!chk.ok) return { format: false, correct: false, invented: false, why: `format: ${chk.reason}` };
   if (c.expect.nothing) return { format: true, correct: chk.nothing, invented: false, why: chk.nothing ? "" : "should abstain" };
   if (chk.nothing) return { format: true, correct: !!c.expect.allowNothing, invented: false, why: c.expect.allowNothing ? "" : "abstained on answerable case" };
-  const body = chk.text.split("\n").filter((l) => !/^— sources:/.test(l)).join(" ");
+  const lines = chk.text.split("\n").filter((l) => !/^— sources:/.test(l));
+  // Time-hint cases grade the key fact (first line); mentioning the newer value afterwards is allowed by Part 2 §6a.
+  const body = c.category === "time" ? lines[0] : lines.join(" ");
   const lower = body.toLowerCase();
   const hit = c.expect.mustAny.every((group) => group.some((g) => lower.includes(g.toLowerCase())));
   const leak = (c.expect.mustNot ?? []).find((m) => lower.includes(m.toLowerCase()));
   const inputNums = nums(`${c.question} ${c.live.join(" ")} ${c.passages.map((p) => `${p.text} ${p.date} ${p.source}`).join(" ")}`);
-  const invented = [...nums(body)].filter((n) => !inputNums.has(n));
+  const invented = [...nums(lines.join(" "))].filter((n) => !inputNums.has(n));
   return {
     format: true,
     correct: hit && !leak,

@@ -106,6 +106,8 @@ test("output format validator", () => {
   assert.equal(checkAnswer("- A\n- B\n— sources: a.md (2026-10-01)").ok, true);
   assert.equal(checkAnswer("- A\n— sources: a.md (2026-10-01), this meeting (14:31)", ["a.md"]).ok, true);
   assert.equal(checkAnswer("- A\n— sources: design-review-payments.pdf (2026-09-22)", ["a.md"]).ok, false);
+  assert.equal(checkAnswer("- A\n— sources: standup-notes-2026-09-22.md (2026-09-22)", ["a.md"]).ok, false);
+  assert.equal(checkAnswer("- A\n— sources: a (2026-10-01), Weekly sync (2026-09-24)", ["a.md", "Weekly sync"]).ok, true);
   assert.equal(checkAnswer("Launch is Oct 14. Owner is Varish.\n— sources: a.md (2026-10-01)").ok, true);
   assert.equal(checkAnswer("<think>hmm</think>\n- A\n— sources: a.md (x)").ok, true);
   assert.equal(checkAnswer("- A\n- B\n- C\n- D\n— sources: a.md").ok, false);
@@ -113,8 +115,11 @@ test("output format validator", () => {
   assert.equal(checkAnswer("One. Two. Three.\n— sources: a.md").ok, false);
   const nothing = checkAnswer("Nothing in your notes on this.");
   assert.ok(nothing.ok && nothing.nothing && nothing.text === NOTHING);
-  const red = checkAnswer("- Use password: hunter2 for staging\n— sources: a.md");
-  assert.ok(red.ok && !red.text.includes("hunter2"));
+  for (const leak of ["- Use password: hunter2 for staging", "- The staging password is hunter2-staging.", "- API key = sk-abcdefghijklmnopqrstu"]) {
+    const red = checkAnswer(`${leak}\n— sources: a.md`);
+    assert.ok(red.ok && !/hunter2|sk-abc/.test(red.text), leak);
+  }
+  assert.equal(checkAnswer("- Deadline moves to Oct 17.\n— sources: Sam (14:57:50)", ["a.md"]).ok, true);
 });
 
 test("floating model aliases are rejected", () => {
