@@ -1,0 +1,32 @@
+:root {
+  --bg: #f7f9fb; --fg: #13202a; --muted: #566a78; --card: #ffffff; --line: #dfe6ec; --accent: #1f6feb; --ok: #1a7f37; --warn: #9a6700; --bad: #cf222e;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0d1620; --fg: #e8eef3; --muted: #93a6b4; --card: #14212c; --line: #243644; --accent: #58a6ff; --ok: #3fb950; --warn: #d29922; --bad: #f85149; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+a { color: var(--accent); }
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+header.top { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; }
+.brand { font-weight: 700; letter-spacing: -0.01em; }
+.status { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+.dot.ok { background: var(--ok); } .dot.bad { background: var(--bad); }
+.hero { padding: 48px 0 32px; }
+.hero h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.1; margin: 0 0 16px; letter-spacing: -0.02em; }
+.hero p { font-size: 18px; color: var(--muted); max-width: 640px; margin: 0; }
+.grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin: 32px 0; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+.card h3 { margin: 0 0 6px; font-size: 16px; }
+.card p { margin: 0; color: var(--muted); font-size: 15px; }
+.step { font-size: 13px; color: var(--accent); font-weight: 600; }
+h2 { font-size: 22px; margin: 40px 0 8px; }
+table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 15px; }
+th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+th { border-top: 0; color: var(--muted); font-weight: 600; font-size: 13px; }
+.tag { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; }
+.tag.ok { color: var(--ok); } .tag.warn { color: var(--warn); } .tag.bad { color: var(--bad); }
+.note { color: var(--muted); font-size: 14px; }
+footer { padding: 40px 0; color: var(--muted); font-size: 14px; }
+.scroll { overflow-x: auto; }

@@ -55,3 +55,26 @@ Owner-funded internal non-expiring USD grants, no payment checkout, no markup. M
 - Supporting evidence: docs/EVIDENCE.md, "Skeleton deployment".
 - Cost/security/compatibility implications: Railway bills by usage for one small always-on service. The Vercel hobby project has no expected recurring cost. CORS allows only `https://contextharbor.vercel.app`. This does not complete T38: there is no staging isolation, database, storage, or migrations.
 - Affected tasks and requirements: T06, T38.
+
+## D09 Owner's daily-assistant brief (local-first RAG desktop app)
+
+- ID and date: D09, 2 October 2026.
+- Problem: Mid-session, the owner supplied a new build brief ("Part 1") and a runtime system prompt ("Part 2"). They asked for a working app. The brief conflicts with parts of the original pack:
+  - RAG with a vector index instead of D03 RAGless.
+  - Local per-user storage instead of server-side accounts, budgets and admin.
+  - Recording of chat and OCR of shared screens.
+  - Any LLM, with local models allowed.
+- Decision and scope:
+  - Build the brief as the desktop product in `apps/desktop`. It is local-first, one knowledge base per local user, with every query filtered by `user_id`.
+  - D03 is superseded for the desktop app. The app uses hybrid retrieval: embeddings plus SQLite FTS5, a re-ranker, a threshold, and 3 to 6 passages.
+  - The server pieces of the original pack (admin, invitations, wallets, T07–T23) are not built. They remain in TASKS.md for the owner to keep or drop.
+  - The Part 2 prompt ships verbatim in `apps/desktop/static/system-prompt.md`.
+- Non-negotiables kept from CLAUDE.md:
+  - No universal-invisibility claim. Capture exclusion is reported per platform as supported, best-effort or unsupported.
+  - On macOS, while the user presents on a single display, the panel is hidden unless the user confirms a receiver-side test.
+  - Recording is off until the organization policy and consent are set. If the jurisdiction requires all-party consent, nothing is saved without per-meeting confirmation.
+  - Titles that look like exams, interviews or assessments disable the assistant.
+  - Raw audio and screen frames are never stored.
+- Options considered: Keep the original server architecture and add RAG (rejected: the brief specifies local storage, any LLM and a single user per machine). Pause and ask the owner (rejected: the owner said to build it end to end and is unavailable during the session).
+- Cost/security implications: The default models are local (Ollama), so model cost per answer is $0. Hosted adapters exist, but no hosted model was evaluated because no API keys were provided.
+- Affected tasks: T03/T04 (audio capture is now implemented, but receiver evidence is still missing), T25–T30 (desktop equivalents implemented locally), T05/T41 (still open).
