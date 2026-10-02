@@ -91,7 +91,7 @@ test("fallback chain: format failure and timeout move to the next model; all fai
   const kb = new KnowledgeBase(path.join(dir, "kb.sqlite"), new HashEmbedder());
   const bad = new FakeLLM("cheap", () => "Sure! Here is a long preamble without sources.");
   const slow = new FakeLLM("mid", () => new LLMError("timed out", "timeout"));
-  const good = new FakeLLM("big", () => "Launch is October 14.\n— sources: plan.md (2026-09-30)");
+  const good = new FakeLLM("big", () => "Launch is October 14.\n— sources: this meeting (14:59)");
   const ok = await new AnswerPipeline("u", kb, [bad, slow, good]).answer("launch date?", "Priya", meeting(), {}, { now: NOW });
   assert.equal(ok.modelId, "big");
   assert.equal(ok.status, "answered");
@@ -104,6 +104,8 @@ test("fallback chain: format failure and timeout move to the next model; all fai
 
 test("output format validator", () => {
   assert.equal(checkAnswer("- A\n- B\n— sources: a.md (2026-10-01)").ok, true);
+  assert.equal(checkAnswer("- A\n— sources: a.md (2026-10-01), this meeting (14:31)", ["a.md"]).ok, true);
+  assert.equal(checkAnswer("- A\n— sources: design-review-payments.pdf (2026-09-22)", ["a.md"]).ok, false);
   assert.equal(checkAnswer("Launch is Oct 14. Owner is Varish.\n— sources: a.md (2026-10-01)").ok, true);
   assert.equal(checkAnswer("<think>hmm</think>\n- A\n— sources: a.md (x)").ok, true);
   assert.equal(checkAnswer("- A\n- B\n- C\n- D\n— sources: a.md").ok, false);

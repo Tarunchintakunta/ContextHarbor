@@ -32,8 +32,13 @@ const SECRET = /\b(?:password|passwd|api[_-]?key|secret|token)\s*[:=]\s*\S+|\b(?
 
 export type Checked = { ok: true; text: string; nothing: boolean } | { ok: false; reason: string };
 
-/** Enforces Section 10: 1-3 bullets or 1-2 sentences plus a sources line, or the exact "nothing" reply. */
-export function checkAnswer(raw: string): Checked {
+const LIVE_SOURCE = /\b(meeting|chat|call|transcript|slide|screen|sync|standup|discussion)\b/i;
+
+/**
+ * Enforces Section 10: 1-3 bullets or 1-2 sentences plus a sources line, or the exact "nothing" reply.
+ * With `allowedSources`, every cited source must be a provided passage file or the live meeting.
+ */
+export function checkAnswer(raw: string, allowedSources?: string[]): Checked {
   let text = raw.replace(/<think>[\s\S]*?<\/think>/g, "").trim(); // some local models emit reasoning blocks
   text = text.replace(/^```\w*\n?|\n?```$/g, "").trim();
   if (!text) return { ok: false, reason: "empty" };
@@ -55,5 +60,11 @@ export function checkAnswer(raw: string): Checked {
   if (body.join(" ").length > 400) return { ok: false, reason: "too long" };
   const sources = lines[srcIdx].replace(/^[—–-]{1,2}\s*sources?:\s*/i, "");
   if (!sources) return { ok: false, reason: "empty sources" };
+  if (allowedSources) {
+    const allowed = allowedSources.map((a) => a.toLowerCase());
+    const cited = sources.split(/,(?![^()]*\))/).map((x) => x.trim()).filter(Boolean);
+    const bogus = cited.find((c) => !allowed.some((a) => c.toLowerCase().includes(a)) && !LIVE_SOURCE.test(c));
+    if (bogus) return { ok: false, reason: `cites unknown source "${bogus.slice(0, 60)}"` };
+  }
   return { ok: true, text: [...body, `— sources: ${sources}`].join("\n"), nothing: false };
 }

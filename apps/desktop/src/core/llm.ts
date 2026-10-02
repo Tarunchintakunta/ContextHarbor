@@ -44,6 +44,7 @@ export interface ModelConfig {
   timeoutMs: number;
   costPerMTokIn?: number; // USD, for the cost-per-answer report
   costPerMTokOut?: number;
+  extraBody?: Record<string, unknown>; // provider-specific knobs, e.g. {"reasoning_effort":"none"}
 }
 
 /** OpenAI-compatible chat completions: OpenAI, Ollama, llama.cpp server, vLLM, LM Studio, OpenRouter, ... */
@@ -62,6 +63,7 @@ export class OpenAICompatible implements LLM {
       temperature: req.temperature ?? this.cfg.temperature,
       stream: !!req.stream,
       ...(req.stream ? { stream_options: { include_usage: true } } : {}),
+      ...this.cfg.extraBody,
     };
     const r = await post(`${this.cfg.baseUrl}/chat/completions`, body, req.timeoutMs, this.apiKey ? { authorization: `Bearer ${this.apiKey}` } : {});
     if (!req.stream) {

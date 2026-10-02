@@ -120,7 +120,7 @@ export class AnswerPipeline {
           timeoutMs: 8_000,
         });
         firstTokenMs = r.firstTokenMs;
-        const c = checkAnswer(r.text);
+        const c = checkAnswer(r.text, [...passages, ...segments].map((p) => p.sourcePath.split("/").pop() ?? p.sourcePath));
         if (!c.ok) throw new LLMError(`format: ${c.reason}`, "format");
         return c;
       },
