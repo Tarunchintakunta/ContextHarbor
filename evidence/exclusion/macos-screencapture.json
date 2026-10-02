@@ -1,0 +1,7 @@
+{
+  "platform": "darwin",
+  "osRelease": "27.0.0",
+  "electron": "44.5.1",
+  "method": "screencapture",
+  "error": "Error: Command failed: screencapture -x -R 80,153,540,160 /Users/tarunchintakunta/Desktop/ContextHarbor/apps/desktop/../../evidence/exclusion/macos-screencapture.png\ncould not create image from rect\n"
+}

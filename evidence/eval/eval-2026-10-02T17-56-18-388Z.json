@@ -1,0 +1,245 @@
+{
+  "date": "2026-10-02T17:56:18.390Z",
+  "base": "http://127.0.0.1:11434/v1",
+  "latencyTargetMs": 3000,
+  "report": [
+    {
+      "model": "gemma3:1b",
+      "cases": 38,
+      "rounds": 1,
+      "passRate": 0.02631578947368421,
+      "formatRate": 0.02631578947368421,
+      "inventedCount": 0,
+      "abstainCorrect": 0,
+      "abstainTotal": 9,
+      "errors": 0,
+      "firstTokenP50": 254,
+      "firstTokenP95": 275,
+      "coldStartMs": 9895,
+      "consistent": true,
+      "failing": [
+        "kb-01",
+        "kb-02",
+        "kb-03",
+        "kb-04",
+        "kb-05",
+        "kb-06",
+        "kb-07",
+        "kb-08",
+        "kb-09",
+        "kb-10",
+        "kb-11",
+        "kb-12",
+        "live-01",
+        "live-02",
+        "live-04",
+        "live-05",
+        "live-06",
+        "none-01",
+        "none-02",
+        "none-03",
+        "none-04",
+        "none-05",
+        "none-06",
+        "none-07",
+        "none-08",
+        "time-01",
+        "time-02",
+        "time-03",
+        "time-04",
+        "time-05",
+        "time-06",
+        "dis-01",
+        "dis-02",
+        "dis-03",
+        "dis-04",
+        "dis-05",
+        "dis-06"
+      ],
+      "verdict": "FAIL",
+      "failures": [
+        {
+          "id": "kb-01",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a response to your question:\n\nThe payments migration launch is set for October 14th. The rollback window is 48 hours."
+        },
+        {
+          "id": "kb-02",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a response to your question:\n\nVarish, Dana Kim is the owner of the ledger reconciliation work.  He's responsible for ensuring all transactions are reconciled accurately and efficiently."
+        },
+        {
+          "id": "kb-03",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "- Load test 2026-10-01: checkout p95 latency 182 ms, p99 410 ms, error rate 0.2%\n"
+        },
+        {
+          "id": "kb-04",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a concise answer to your question:\n\nThe budget for the fraud vendor is $48,000. It was approved annually by Sentra."
+        },
+        {
+          "id": "kb-05",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a response to your question:\n\nThe backend team is moving from MySQL 5.7 to PostgreSQL 16 by Q4.  This change will improve data consistency and performance for payment processing."
+        },
+        {
+          "id": "kb-06",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a response to your question:\n\n**Status:** The refund webhook duplicates are being fixed in staging.  The fix was deployed on September 30th, 2026."
+        },
+        {
+          "id": "kb-07",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, there are 37 merchants in the pilot.  The pilot cohort is comprised of 37 merchants across the EU region."
+        },
+        {
+          "id": "kb-08",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "- Rollback: flip feature flag pay_v2 off; old pipeline stays warm for 48 hours.\n"
+        },
+        {
+          "id": "kb-09",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s the answer to your question:\n\n*   Ireland and Netherlands will be live first.\n*   Germany will follow.\n*   The rest of the EU will follow after Ireland and Netherlands."
+        },
+        {
+          "id": "kb-10",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a response to your question:\n\n**Security:** The security review notes state that tokens must move to the HSM-backed vault before launch.  This is crucial for securing the system and preventing unauthorized access."
+        },
+        {
+          "id": "kb-11",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s the answer to Kim’s question:\n\n*   Sam is on-call for payments.\n*   Varish will be on-call for payments.\n*   Dana will be on-call for payments.\n*   Jo will be on-call for payments."
+        },
+        {
+          "id": "kb-12",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "Okay, here’s a response to your question:\n\n**Yes**, the API freeze remains active for Friday October 9th at 17:00 UTC.  Please approve the retry fix."
+        }
+      ]
+    },
+    {
+      "model": "qwen3:1.7b",
+      "cases": 38,
+      "rounds": 1,
+      "passRate": 0.5526315789473685,
+      "formatRate": 0.868421052631579,
+      "inventedCount": 3,
+      "abstainCorrect": 3,
+      "abstainTotal": 9,
+      "errors": 0,
+      "firstTokenP50": 139,
+      "firstTokenP95": 172,
+      "coldStartMs": 1474,
+      "consistent": true,
+      "failing": [
+        "kb-01",
+        "kb-03",
+        "kb-05",
+        "live-02",
+        "live-03",
+        "live-05",
+        "none-02",
+        "none-03",
+        "none-05",
+        "none-06",
+        "none-07",
+        "time-01",
+        "time-04",
+        "time-06",
+        "dis-04",
+        "dis-05",
+        "dis-06"
+      ],
+      "verdict": "FAIL",
+      "failures": [
+        {
+          "id": "kb-01",
+          "round": 1,
+          "why": "missing expected fact",
+          "out": "Rollback window is 48 hours.  \n— sources: payments-plan-2026-09-30.md (2026-09-30)"
+        },
+        {
+          "id": "kb-03",
+          "round": 1,
+          "why": "invented numbers 1",
+          "out": "The latest load test results show that the p95 latency for checkout was 182 ms. This information is based on the performance report from the last run on October 1, 2026.\n\n— sources: perf-report-2026-10-01.md (2026-10-01), perf-report-2026-10-01.md (2026-10-01)"
+        },
+        {
+          "id": "kb-05",
+          "round": 1,
+          "why": "missing expected fact",
+          "out": "- The backend team can provide details about the database migration.\n— sources: architecture-overview.md (2026-08-11)"
+        },
+        {
+          "id": "live-02",
+          "round": 1,
+          "why": "missing expected fact",
+          "out": "Thanks for walking through that.  \n— sources: design-review-payments.pdf (2026-09-22), infra-costs-q3-2026-09-22.md"
+        },
+        {
+          "id": "live-03",
+          "round": 1,
+          "why": "format: text after sources line",
+          "out": "— sources: design-review-payments.md (2026-10-01), standup-notes-2026-09-22.md\n\nNothing in your notes on this. Suggest: \"Let me check and follow up after the call.\""
+        },
+        {
+          "id": "live-05",
+          "round": 1,
+          "why": "format: text after sources line",
+          "out": "— sources: design-review-payments.pdf (2026-10-01), project-overview.md\n\nNothing in your notes on this. Suggest: \"Let me check and follow up after the call.\""
+        },
+        {
+          "id": "none-02",
+          "round": 1,
+          "why": "format: missing sources line",
+          "out": "- The SLA (Service Level Agreement) with the card network for the pilot cohort is not directly mentioned in the provided notes.\n- The pilot cohort consists of 37 merchants, all in the EU region.\n- If you need further details, I can look up the relevant passage again."
+        },
+        {
+          "id": "none-03",
+          "round": 1,
+          "why": "should abstain",
+          "out": "- The marketing campaign cost was estimated to be around $50,000 based on the performance report from October 1st.\n— sources: perf-report-2026-10-01.md (2026-10-01), <unknown> (unknown)"
+        },
+        {
+          "id": "none-05",
+          "round": 1,
+          "why": "should abstain",
+          "out": "Ledger reconciliation: owner Dana Kim.\n\n— sources: ownership-2026-09-29.md (2026-09-29), ownership-2026-09-29.md (2026-09-29)"
+        },
+        {
+          "id": "none-06",
+          "round": 1,
+          "why": "should abstain",
+          "out": "- The Q2 churn rate was calculated based on the number of customers who left during the second quarter of the year.\n- The fraud vendor approved an annual budget of $48,000, which may include costs related to customer retention and support.\n— sources: vendor-review-2026-09-24.md (2026-09-24), ..."
+        },
+        {
+          "id": "none-07",
+          "round": 1,
+          "why": "format: text after sources line",
+          "out": "— sources: analytics-cluster.md (2026-09-22), cloud-region.md (2026-09-22)\n\nNothing in your notes on this. Suggest: \"Let me check and follow up after the call.\""
+        },
+        {
+          "id": "time-01",
+          "round": 1,
+          "why": "included distractor \"182\"",
+          "out": "**Key fact:** Checkout p95 latency decreased from 240 ms (Sep 24) to 182 ms (Oct 1).\n\n— sources: `perf-2026-09-24.md (2026-09-24)`, `perf-2026-10-01.md (2026-10-01)"
+        }
+      ]
+    }
+  ]
+}

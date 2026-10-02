@@ -1,0 +1,53 @@
+{
+  "question": "varish. When does the payments migration launch?",
+  "answer": "Answer unavailable right now.",
+  "status": "unavailable",
+  "model": null,
+  "timings": {
+    "retrievalMs": 111,
+    "totalMs": 16121
+  },
+  "requestTokens": 4681,
+  "attempts": [
+    {
+      "modelId": "openai-compatible:qwen2.5:7b",
+      "error": "timeout: timed out",
+      "ms": 8007
+    },
+    {
+      "modelId": "openai-compatible:gemma3:12b",
+      "error": "timeout: timed out",
+      "ms": 8003
+    }
+  ],
+  "sources": [],
+  "overlay": {
+    "visible": true,
+    "focused": false,
+    "contentProtection": true,
+    "bounds": {
+      "x": 1068,
+      "y": 81,
+      "width": 420,
+      "height": 260
+    }
+  },
+  "captureMode": "simulated",
+  "meeting": "Sprint sync",
+  "liveItems": [
+    {
+      "kind": "meta",
+      "text": "Meeting: Sprint sync (Demo)"
+    },
+    {
+      "kind": "speech",
+      "speaker": "remote",
+      "text": "Okay, next up is payments"
+    },
+    {
+      "kind": "speech",
+      "speaker": "remote",
+      "text": "varish. When does the payments migration launch?"
+    }
+  ]
+}

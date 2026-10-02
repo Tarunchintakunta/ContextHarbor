@@ -2,13 +2,15 @@
   "name": "@contextharbor/desktop",
   "version": "0.0.1",
   "private": true,
-  "description": "ContextHarbor desktop feasibility harness (T02)",
-  "main": "dist/main.js",
+  "description": "ContextHarbor private meeting assistant (desktop)",
+  "main": "dist/app/main.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "start": "pnpm build && electron .",
-    "selftest": "pnpm build && CH_SELFTEST=1 electron .",
-    "test": "tsc -p tsconfig.json && node --test \"dist/core/*.test.js\" \"dist/app/*.test.js\""
+    "start": "tsc -p tsconfig.json && electron .",
+    "selftest": "tsc -p tsconfig.json && CH_SELFTEST=1 electron dist/harness/main.js",
+    "test": "tsc -p tsconfig.json && node --test \"dist/core/*.test.js\" \"dist/app/*.test.js\"",
+    "harness": "tsc -p tsconfig.json && electron dist/harness/main.js",
+    "eval": "tsc -p tsconfig.json && node dist/eval/run.js"
   },
   "devDependencies": {
     "@types/node": "24.19.1",

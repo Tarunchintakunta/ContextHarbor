@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'">
+<title>ContextHarbor settings</title>
+<link rel="stylesheet" href="settings.css">
+</head>
+<body>
+<main>
+  <h1>ContextHarbor</h1>
+  <p class="muted">Private meeting assistant. Everything here stays on this computer except the passages sent to the model you configure.</p>
+
+  <section><h2>User</h2>
+    <label>Active user <select id="user"></select></label>
+    <div class="row"><input id="newUser" placeholder="new user id (letters, digits, . _ -)" aria-label="New user id"><button id="addUser">Switch / add user</button></div>
+    <p class="muted">Switching user clears all in-memory context and opens that user's own knowledge base.</p>
+    <label>Names and nicknames people use for you <input id="names" placeholder="Varish, V"></label>
+    <label>Roles you answer for <input id="roles" placeholder="backend team, payments lead"></label>
+    <label>Topics you own <input id="topics" placeholder="payments migration, ledger"></label>
+  </section>
+
+  <section><h2>Knowledge base</h2>
+    <label>Folder <input id="kbDir"></label>
+    <div class="row"><button id="openKb">Open folder</button><span id="kbStats" class="muted"></span></div>
+    <p class="muted">Put time-bound notes in week folders like <code id="weekEx"></code> and timeless material in <code>_reference/</code>. Markdown and text files are indexed automatically.</p>
+  </section>
+
+  <section><h2>Recording policy and consent</h2>
+    <label>Does your organization allow recording/transcribing meetings?
+      <select id="org"><option value="not_set">Not set (nothing is saved)</option><option value="allowed">Allowed</option><option value="not_allowed">Not allowed (nothing is saved)</option></select></label>
+    <label class="check"><input type="checkbox" id="consent"> I confirm local law and meeting consent/notification rules are met for meetings I record.</label>
+    <label class="check"><input type="checkbox" id="allParty"> My jurisdiction requires every participant's consent (confirm per meeting from the tray menu).</label>
+    <label>Never run in meetings whose title matches <input id="blocked"></label>
+    <p class="muted">When recording isn't permitted, the assistant keeps only a short rolling context in memory and saves nothing.</p>
+  </section>
+
+  <section><h2>Retention</h2>
+    <label>Keep transcripts, chat and shared-content text (days) <input id="tDays" type="number" min="0" max="3650"></label>
+    <label>Keep answer history (days) <input id="hDays" type="number" min="0" max="3650"></label>
+    <p class="muted">Raw audio and screen frames are never stored; they are discarded right after transcription/OCR.</p>
+  </section>
+
+  <section><h2>Hotkeys</h2>
+    <div class="grid">
+      <label>Pause/resume <input id="hk-pause"></label><label>Answer now <input id="hk-ask"></label>
+      <label>Show/hide panel <input id="hk-toggle"></label><label>Pin panel <input id="hk-pin"></label>
+      <label>Dismiss <input id="hk-dismiss"></label><label>Auto-hide after (s) <input id="autoHide" type="number" min="5" max="600"></label>
+    </div>
+  </section>
+
+  <section><h2>Answer display</h2>
+    <label>Show the panel on <select id="dispMode"><option value="auto">Automatic (prefer a non-shared secondary display)</option><option value="secondary">Secondary display</option><option value="primary">Primary display</option><option value="id">Specific display</option></select></label>
+    <label>Display <select id="dispId"></select></label>
+    <label class="check"><input type="checkbox" id="trust"> I tested with a second device that the panel is not visible to meeting participants on this computer (allows showing it while presenting on a single display).</label>
+    <p class="muted" id="protNote"></p>
+  </section>
+
+  <section><h2>Model</h2>
+    <p class="muted" id="models"></p>
+    <div class="row"><input id="keyRef" placeholder="key name, e.g. openai" aria-label="API key name"><input id="keyVal" type="password" placeholder="API key (stored in OS keychain)" aria-label="API key"><button id="saveKey">Save key</button></div>
+  </section>
+
+  <section><h2>Meetings</h2><div id="meetings"></div><pre id="viewer" hidden></pre></section>
+  <section><h2>Answer history</h2><div id="history"></div></section>
+
+  <section class="danger"><h2>Wipe my data</h2>
+    <p class="muted">Removes this user's index, recordings, transcripts, summaries, history, caches and logs.</p>
+    <button id="wipe" class="danger">Wipe my data…</button>
+  </section>
+  <div class="bar"><button id="save" class="primary">Save settings</button><span id="saved" class="muted"></span></div>
+</main>
+<script src="settings.js"></script>
+</body></html>

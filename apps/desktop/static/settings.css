@@ -1,0 +1,18 @@
+:root { color-scheme: light dark; --bg: #f6f8fa; --fg: #1d2a33; --muted: #5d6f7c; --card: #fff; --line: #d8e0e6; --accent: #1f6feb; --danger: #c62828; }
+@media (prefers-color-scheme: dark) { :root { --bg: #0f1820; --fg: #e8eef2; --muted: #93a6b4; --card: #16222c; --line: #2a3a46; --accent: #4c9aff; --danger: #ff6b6b; } }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.5 -apple-system, "Segoe UI", system-ui, sans-serif; }
+main { max-width: 700px; margin: 0 auto; padding: 24px 16px 80px; }
+h1 { margin: 0 0 4px; font-size: 22px; } h2 { margin: 0 0 10px; font-size: 15px; }
+section { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin: 14px 0; }
+label { display: block; margin: 8px 0; } label.check { display: flex; gap: 8px; align-items: flex-start; }
+input, select, button { font: inherit; } input:not([type=checkbox]), select { display: block; width: 100%; box-sizing: border-box; margin-top: 4px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--fg); }
+.row { display: flex; gap: 8px; align-items: center; } .row input { margin: 0; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+button { padding: 6px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--card); color: var(--fg); cursor: pointer; white-space: nowrap; }
+button.primary { background: var(--accent); color: #fff; border-color: var(--accent); } button.danger { color: var(--danger); border-color: var(--danger); }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.muted { color: var(--muted); font-size: 13px; } code { font-size: 12px; }
+.item { display: flex; gap: 8px; align-items: center; padding: 6px 0; border-top: 1px solid var(--line); } .item span { flex: 1; }
+pre { white-space: pre-wrap; max-height: 300px; overflow: auto; background: var(--bg); padding: 8px; border-radius: 6px; }
+.bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 10px 16px; background: var(--card); border-top: 1px solid var(--line); display: flex; gap: 12px; align-items: center; justify-content: center; }
+@media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
