@@ -39,3 +39,25 @@ For manual hardware tests include exact device, OS, app/runtime versions and rec
 - Evidence artifact paths: this entry.
 - Known limitations and follow-up task IDs: no Windows device (T03), no Intel Mac (T04), no second receiver device (T03/T04/T41), no signing identities (T39/T40), no provider keys (T19, T25, T27, T36), no hosting decision (T38), Node 25 is EOL (T06).
 - Next task: T02.
+
+## T02 — Bootstrap the smallest desktop feasibility harness
+
+- Date and implementation commit: 2 October 2026; see `git log` for the T02 commit.
+- Changed files: apps/desktop/{package.json,tsconfig.json,pnpm-lock.yaml,README.md,src/main.ts,src/preload.ts,static/overlay.html,static/overlay.js,scripts/click.swift}; evidence/t02/*.
+- Acceptance criteria checked:
+  - Window works without taking presentation focus: PASS (programmatic plus frontmost-app check). The overlay is a macOS non-activating panel (`type: "panel"`, `focusable: false`), shown with `showInactive()`. Self-test reports `overlayNotFocused`, `noFocusedAppWindow` and `overlayNotFocusable` all true. `lsappinfo front` reported Google Chrome as the frontmost app both before launch and after the overlay was shown.
+  - Quit releases all acquired resources: PASS. Released list `shortcuts:3,tray,overlay,capture:none-acquired`. `globalShortcut.isRegistered` is false for all three shortcuts after quit. `pgrep` found 0 leftover Electron processes. The process exited with code 0.
+  - Show/hide and pause are independent: PASS (`pausedIndependentOfVisibility`, `hideDidNotChangePause`).
+- Commands actually run and results:
+  - `pnpm install` then `node node_modules/electron/install.js` -> Electron v44.5.1. pnpm 10 skipped Electron's postinstall by default.
+  - `pnpm build` (tsc 7.0.2) -> no errors.
+  - `CH_SELFTEST=1 CH_EVIDENCE_DIR=<repo>/evidence/t02 electron .` -> evidence/t02/t02-selftest.json (all checks true) and evidence/t02/t02-overlay.png (marker CH-MARKER-7DA9E3, status text, Pause/Hide/Quit controls).
+  - A real-mouse click test (`CH_CLICKTEST=1` plus `swift scripts/click.swift 142 371`) gave `osClickToggledPause: false`. macOS dropped the synthetic click because the terminal has no Accessibility permission, and System Settings opened a permission prompt. Claude did not grant it. The overlay stayed unfocused (`overlayNotFocusedAfterClick: true`).
+- Environment and fixture/live-provider distinction: Apple M5 Pro, macOS 27.0 (26A428), Electron 44.5.1 development build launched from a terminal. No providers. Fixture marker content only.
+- Evidence artifact paths: evidence/t02/t02-selftest.json, evidence/t02/t02-overlay.png.
+- Known limitations and follow-up task IDs:
+  - Not yet tested: a physical mouse click on overlay buttons while a presentation app is frontmost. This needs a manual click or an Accessibility grant from the owner. It moves to T30 (no-focus-theft acceptance) and the T03/T04 receiver sessions.
+  - Content protection is only requested, not verified on a receiver (T03/T04/T41).
+  - Not tested on Windows.
+  - Not tested as a packaged app (T04).
+- Next task: T06. T03 and T04 need hardware or receiver access; see STATUS.md. The macOS Apple Silicon audio spike for T04 can start locally.

@@ -4,9 +4,9 @@ Updated: 2 October 2026.
 
 State: implementation started. TASKS.md is authoritative for completion.
 
-Active task: T02 — Bootstrap the smallest desktop feasibility harness.
+Active task: T04 (macOS Apple Silicon audio spike, partial; Intel + receiver blocked).
 
-Completed engineering tasks: T01.
+Completed engineering tasks: T01, T02.
 
 Confirmed owner decisions: Windows and macOS; English; MD/PDF/DOCX; existing company meeting AI policy; one isolated client workspace with a small document collection per member login; separate logins for separate freelance projects; one super admin; owner-funded usage allowances.
 

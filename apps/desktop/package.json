@@ -1,0 +1,22 @@
+{
+  "name": "@contextharbor/desktop",
+  "version": "0.0.1",
+  "private": true,
+  "description": "ContextHarbor desktop feasibility harness (T02)",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "pnpm build && electron .",
+    "selftest": "pnpm build && CH_SELFTEST=1 electron ."
+  },
+  "devDependencies": {
+    "@types/node": "24.19.1",
+    "electron": "44.5.1",
+    "typescript": "7.0.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "electron"
+    ]
+  }
+}

@@ -24,7 +24,7 @@ Tasks are estimates of small implementation slices; split a task if it cannot fi
 
 ## Feasibility
 
-- [ ] **T02 — Bootstrap the smallest desktop feasibility harness**
+- [x] **T02 — Bootstrap the smallest desktop feasibility harness**
 
   Dependencies: T01.
 

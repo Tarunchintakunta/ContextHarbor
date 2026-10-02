@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'">
+<title>ContextHarbor overlay harness</title>
+<style>
+  html, body { margin: 0; height: 100%; font: 16px/1.4 -apple-system, "Segoe UI", sans-serif; background: #10202c; color: #f2f5f7; }
+  body { display: flex; flex-direction: column; padding: 12px; box-sizing: border-box; gap: 8px; -webkit-app-region: drag; }
+  .label { font-size: 13px; color: #9fb4c3; }
+  #marker { font: 700 28px/1.2 ui-monospace, Menlo, Consolas, monospace; color: #ffd166; }
+  #status { font-size: 15px; }
+  .mock { font-size: 12px; color: #ff9f6b; }
+  .row { display: flex; gap: 8px; margin-top: auto; -webkit-app-region: no-drag; }
+  button { font: inherit; font-size: 14px; padding: 6px 10px; border-radius: 6px; border: 1px solid #3c5668; background: #1b3445; color: inherit; }
+  button:focus-visible { outline: 2px solid #ffd166; }
+</style>
+</head>
+<body>
+  <div class="label">Workspace: <strong>HARNESS — no client data</strong></div>
+  <div id="marker" aria-label="Receiver test marker">CH-MARKER</div>
+  <div id="status" role="status" aria-live="polite">Starting…</div>
+  <div class="mock">Feasibility harness. Audio capture not started. Share protection requested but NOT verified.</div>
+  <div class="row">
+    <button id="pause" type="button">Pause</button>
+    <button id="hide" type="button">Hide</button>
+    <button id="quit" type="button">Quit</button>
+  </div>
+  <script src="overlay.js"></script>
+</body>
+</html>

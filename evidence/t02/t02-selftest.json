@@ -1,0 +1,15 @@
+{
+  "shownAfterToggle": true,
+  "overlayNotFocused": true,
+  "noFocusedAppWindow": true,
+  "overlayNotFocusable": true,
+  "pausedIndependentOfVisibility": true,
+  "hiddenAfterToggle": true,
+  "hideDidNotChangePause": true,
+  "shortcutsRegistered": true,
+  "marker": "CH-MARKER-C544F4",
+  "osClickToggledPause": false,
+  "overlayNotFocusedAfterClick": true,
+  "released": "shortcuts:3,tray,overlay,capture:none-acquired",
+  "shortcutsUnregistered": true
+}

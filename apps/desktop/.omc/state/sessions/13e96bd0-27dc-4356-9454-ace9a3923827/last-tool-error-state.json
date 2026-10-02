@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"pnpm build 2>&1 | tail -5 && mkdir -p ../../evidence/t02 && osascript -e 'tell application \\\"Finder\\\" to activate' && sleep 1 && echo \\\"front before: $(lsappinfo info -only name $(lsappinf...",
+  "error": "Exit code 1\n\n> @contextharbor/desktop@0.0.1 build /Users/tarunchintakunta/Desktop/ContextHarbor/apps/desktop\n> tsc -p tsconfig.json\n\nfront before: \"Google Chrome\" ASN:0x0-0xad0ad: (in front) \n    bundleID=[ NULL ] \n    bundle path=[ NULL ] \n    executable path=[ NULL ] \n !cgsConnection !signalled type=[ NULL ]  flavor=[ NULL ]  Version=[ NULL ]  Arch=!!none \n(eval):1: command not found: timeout\nexit: 0\nfront after: \"Google Chrome\" ASN:0x0-0xad0ad: (in front) \n    bundleID=[ NULL ] \n    bundle pa...",
+  "timestamp": "2026-10-02T17:38:04.930Z",
+  "retry_count": 1
+}
