@@ -1,0 +1,14 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.next/
+dist/
+coverage/
+*.log
+# local client data and signing materials
+local-data/
+*.p12
+*.pfx
+*.key
+ContextHarbor-Claude-Pack.zip
