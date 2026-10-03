@@ -113,3 +113,28 @@ For manual hardware tests include exact device, OS, app/runtime versions and rec
   - `CH_CAPTURE_METHOD=sck electron dist/app/exclusion-test.js .../macos-chromium-sck` (separate process, Chromium desktopCapturer / ScreenCaptureKit) -> `controlVisible: 1, protectedVisible: 0, PASS (excluded)`.
 - Evidence: evidence/exclusion/macos-screencapture.{json,png} and evidence/exclusion/macos-chromium-sck.{json,png}.
 - Limits: this is local capture only, not a meeting receiver's view. Native Teams, Zoom and Slack may use other capture paths. COMPATIBILITY rows stay NOT TESTED until a second device confirms them. T04 and T05 remain open.
+
+## Web login/logout (owner request, 3 October 2026; partially covers T07–T10, T13)
+
+- Backend (`backend/`): Postgres schema created at boot (`users`, `workspaces`, `sessions`, `invitations`, `audit_events`).
+  - The database rejects a second admin (`users_single_admin` index), and each member has exactly one workspace (`unique workspace_id` plus a role check).
+  - Passwords are hashed with Node scrypt. Session tokens are stored only as SHA-256 hashes and sent in an HttpOnly, SameSite=Lax cookie (Secure in production).
+  - Mutating requests must carry the `x-ch-csrf` header. Login is rate-limited (5 attempts per 15 minutes).
+  - Disabling or resetting a member bumps `session_version`, which revokes their live sessions immediately.
+- Frontend (`frontend/`): `/login`, `/setup` (one-time first admin), `/invite` (set password), `/dashboard` (member), `/admin` (members). The header on every page shows "Log in", or the account plus "Log out". `/api/*` is proxied to the backend so the session cookie is first-party.
+- `cd backend && NODE_ENV=test pnpm test` (local PostgreSQL 18.4) -> 3 pass, 0 fail. The tests check:
+  - CSRF rejection; the one-time setup link; login and logout (session dead after logout).
+  - Single-use invitations; two members whose workspaces are kept separate.
+  - Members get 403 on admin routes; disabling a member revokes their session at once; reset invalidates sessions.
+  - The sole admin cannot be disabled; a second admin is rejected by the database; the rate limit triggers.
+- Local browser end-to-end (API on :4000, Next on :3123, throwaway database `ch_e2e`): setup -> /admin -> add member "Outstar" -> invite link shown -> log out (`/v1/me` 401, `/admin` redirects) -> accept invite -> /dashboard "Outstar" (admin API 403) -> log out -> wrong password shows "Email or password is incorrect." -> correct login reaches /dashboard.
+- Production:
+  - Neon project `lingering-tree-35221842` (aws-us-west-2, Postgres 17).
+  - Railway variables `DATABASE_URL`, `APP_ORIGIN` and `NODE_ENV` set; values not logged.
+  - Backend `/health` -> `"stage":"auth","commit":"ec2c7b4"`.
+  - On Vercel: `/api/health` proxied OK; `/dashboard` and `/admin` -> 307 to `/login`; a bad login -> `{"error":"invalid_credentials"}`.
+  - A one-time admin setup invitation was inserted (only its hash), expiring 2026-10-04 06:32 UTC.
+- Not done:
+  - MFA for the admin (T08).
+  - Password reset by email: no email provider, so admins issue a new login link instead.
+  - A production browser login has not been run yet; it needs the owner to use the setup link.
