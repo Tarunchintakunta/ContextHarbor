@@ -60,7 +60,7 @@ export class KnowledgeBase {
 
   /** Adds or replaces one document. Returns false when content is unchanged. */
   /** `origin: "app"` marks recordings/summaries the app created; folder sync never deletes those. */
-  async upsertDocument(userId: string, sourcePath: string, text: string, meta: { title?: string; date?: string; docType?: string; origin?: "file" | "app" } = {}) {
+  async upsertDocument(userId: string, sourcePath: string, text: string, meta: { title?: string; date?: string; docType?: string; origin?: "file" | "app" | "web" } = {}) {
     requireUser(userId);
     const hash = createHash("sha256").update(text).digest("hex");
     const prev = this.db.prepare("SELECT hash FROM docs WHERE user_id = ? AND source_path = ?").get(userId, sourcePath) as { hash: string } | undefined;
@@ -118,6 +118,12 @@ export class KnowledgeBase {
       }
     }
     return changed;
+  }
+
+  /** Source paths of this user's documents from one origin (e.g. "web" for dashboard uploads). */
+  sources(userId: string, origin: "file" | "app" | "web") {
+    requireUser(userId);
+    return (this.db.prepare("SELECT source_path FROM docs WHERE user_id = ? AND origin = ?").all(userId, origin) as { source_path: string }[]).map((r) => r.source_path);
   }
 
   count(userId: string) {

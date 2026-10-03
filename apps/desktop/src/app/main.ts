@@ -18,6 +18,44 @@ import { applyPatch, defaults, SettingsFile, type Settings } from "./settings";
 import { RATE, VadSegmenter, WhisperCli, type Segment } from "./stt";
 import { UserContext } from "./userctx";
 import type { AnswerPipeline as AnswerPipelineT } from "../core/pipeline";
+import { connectAccount, DeviceRevoked, syncDocuments, type WebStatus } from "./websync";
+
+const SERVICE = JSON.parse(readFileSync(path.join(__dirname, "..", "..", "config", "service.json"), "utf8")) as { webOrigin: string; apiOrigin: string };
+if (process.env.CH_WEB_ORIGIN) SERVICE.webOrigin = process.env.CH_WEB_ORIGIN; // local testing
+if (process.env.CH_API_ORIGIN) SERVICE.apiOrigin = process.env.CH_API_ORIGIN;
+let web: WebStatus = { connected: false };
+let webTimer: NodeJS.Timeout | null = null;
+
+// Device token per local user, encrypted by the OS keychain (safeStorage). Never in settings or logs.
+const tokenFile = (userId: string) => path.join(app.getPath("userData"), "keys", `web-${userId}.bin`);
+function webToken(userId: string) {
+  try {
+    return safeStorage.decryptString(readFileSync(tokenFile(userId)));
+  } catch {
+    return null;
+  }
+}
+
+async function syncWeb() {
+  const c = ctx;
+  const token = c && webToken(c.userId);
+  if (!c || !token) {
+    web = { connected: false };
+    return web;
+  }
+  try {
+    const s = await syncDocuments(c.userId, c.kb, SERVICE.apiOrigin, token);
+    if (ctx === c) web = s; // ignore results that finish after a user switch
+    log({ ev: "web_sync", documents: s.documents });
+  } catch (e) {
+    if (e instanceof DeviceRevoked) {
+      require("node:fs").rmSync(tokenFile(c.userId), { force: true });
+      web = { connected: false, error: e.message };
+    } else web = { ...web, error: e instanceof Error ? e.message : "Sync failed." };
+    log({ ev: "web_sync_error", revoked: e instanceof DeviceRevoked });
+  }
+  return web;
+}
 
 const APP_DIR = path.join(__dirname, "..", "..");
 const STATIC = path.join(APP_DIR, "static");
@@ -97,6 +135,10 @@ async function switchUser(userId: string) {
   await ctx.init();
   if (stt) stt.vocabulary = vocabulary();
   log({ ev: "user_active", embedder: ctx.embedderId });
+  web = { connected: false };
+  if (webTimer) clearInterval(webTimer);
+  void syncWeb();
+  webTimer = setInterval(() => void syncWeb(), 5 * 60_000);
   void finalizePending(ctx);
   refresh();
 }
@@ -139,6 +181,7 @@ async function startMeeting(det: Detection) {
   live.add({ t: Date.now(), kind: "meta", text: `Meeting: ${title} (${det.app})` });
   state.meeting = { live, policy, detection: det, consented: false };
   state.misses = 0;
+  void syncWeb(); // pick up documents uploaded just before the meeting
   // Warm the pinned model so the first answer is not a cold load (local models unload when idle).
   const first = ctx?.models[0];
   if (first) void first.generate({ system: "Reply OK.", messages: [{ role: "user", content: "ping" }], maxTokens: 2, timeoutMs: 60_000 }).catch(() => {});
@@ -541,6 +584,41 @@ ipcMain.handle("settings:openKb", (e) => {
   fromSettings(e);
   void shell.openPath(settings.knowledgeBaseDir);
 });
+ipcMain.handle("settings:web", (e) => {
+  fromSettings(e);
+  return { ...web, webOrigin: SERVICE.webOrigin };
+});
+ipcMain.handle("settings:webConnect", async (e) => {
+  fromSettings(e);
+  const c = ctx;
+  if (!c) return web;
+  try {
+    const token = await connectAccount(SERVICE.webOrigin, SERVICE.apiOrigin, (url) => void shell.openExternal(url));
+    const dir = path.join(app.getPath("userData"), "keys");
+    require("node:fs").mkdirSync(dir, { recursive: true, mode: 0o700 });
+    writeFileSync(tokenFile(c.userId), safeStorage.encryptString(token), { mode: 0o600 });
+    return await syncWeb();
+  } catch (err) {
+    web = { connected: false, error: err instanceof Error ? err.message : "Sign-in failed." };
+    return web;
+  }
+});
+ipcMain.handle("settings:webSync", async (e) => {
+  fromSettings(e);
+  return syncWeb();
+});
+ipcMain.handle("settings:webDisconnect", async (e) => {
+  fromSettings(e);
+  const c = ctx;
+  const token = c && webToken(c.userId);
+  if (c && token) {
+    await fetch(`${SERVICE.apiOrigin}/v1/desktop/disconnect`, { method: "POST", headers: { authorization: `Bearer ${token}` } }).catch(() => {});
+    require("node:fs").rmSync(tokenFile(c.userId), { force: true });
+    for (const p of c.kb.sources(c.userId, "web")) c.kb.removeDocument(c.userId, p); // synced copies go too
+  }
+  web = { connected: false };
+  return web;
+});
 ipcMain.handle("settings:wipe", async (e) => {
   fromSettings(e);
   if (!ctx || !settingsWin) return false;
@@ -610,6 +688,21 @@ app.whenReady().then(async () => {
     flushLogs();
   }, 60_000);
   if (process.env.CH_OPEN_SETTINGS === "1") openSettings();
+  if (process.env.CH_E2E_WEB_OUT) {
+    // Test hook: sign in (URL printed instead of opening a browser), sync, search, report, quit.
+    const out = process.env.CH_E2E_WEB_OUT;
+    const c = ctx!;
+    connectAccount(SERVICE.webOrigin, SERVICE.apiOrigin, (url) => console.log(`[e2e] open ${url}`))
+      .then(async (token) => {
+        require("node:fs").mkdirSync(path.dirname(tokenFile(c.userId)), { recursive: true, mode: 0o700 });
+        writeFileSync(tokenFile(c.userId), safeStorage.encryptString(token), { mode: 0o600 });
+        const status = await syncWeb();
+        const hits = await c.kb.search(c.userId, process.env.CH_E2E_QUERY ?? "latency");
+        writeFileSync(out, JSON.stringify({ status, hits: hits.map((h) => ({ source: h.sourcePath, text: h.text.slice(0, 120) })) }, null, 2));
+      })
+      .catch((e) => writeFileSync(out, JSON.stringify({ error: String(e) })))
+      .finally(() => app.quit());
+  }
   if (process.env.CH_E2E_SETTINGS_OUT) {
     openSettings();
     settingsWin!.webContents.once("did-finish-load", () => setTimeout(async () => {

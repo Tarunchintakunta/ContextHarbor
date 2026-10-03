@@ -18,6 +18,12 @@
     <label>Topics you own <input id="topics" placeholder="payments migration, ledger"></label>
   </section>
 
+  <section><h2>Web account</h2>
+    <p id="webStatus" class="muted">Not connected.</p>
+    <div class="row"><button id="webConnect">Connect web account</button><button id="webSync" hidden>Sync now</button><button id="webDisconnect" hidden>Disconnect</button></div>
+    <p class="muted">Documents uploaded on the dashboard are copied into this user's knowledge base (text only) and used for answers. Deleting one on the web removes it here on the next sync.</p>
+  </section>
+
   <section><h2>Knowledge base</h2>
     <label>Folder <input id="kbDir"></label>
     <div class="row"><button id="openKb">Open folder</button><span id="kbStats" class="muted"></span></div>

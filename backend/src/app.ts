@@ -4,6 +4,7 @@ import type { Db } from "./db.js";
 import { hashPassword, Limiter, newToken, normalizeEmail, sha256, validPassword, verifyPassword } from "./auth.js";
 import type { BlobStore } from "./blobs.js";
 import { registerDocuments } from "./documents.js";
+import { registerDesktop } from "./desktop.js";
 
 const COOKIE = "ch_session";
 const SESSION_MS = 7 * 86_400_000;
@@ -67,7 +68,8 @@ export function buildApp(opts: Options = {}) {
   // CSRF: every state-changing request must carry a custom header, which a cross-site form or
   // simple request cannot add without a CORS preflight (and preflights are never approved here).
   app.addHook("onRequest", async (req, reply) => {
-    const ticketed = req.url.startsWith("/v1/uploads"); // authenticated by a single-use ticket, not the cookie
+    // Not cookie-authenticated, so not CSRF-exposed: ticketed uploads, desktop token exchange and bearer calls.
+    const ticketed = req.url.startsWith("/v1/uploads") || req.url === "/v1/desktop/token" || req.url === "/v1/desktop/disconnect";
     if (req.method !== "GET" && req.method !== "HEAD" && !ticketed && req.headers["x-ch-csrf"] !== "1") {
       return reply.code(403).send({ error: "csrf" });
     }
@@ -256,6 +258,7 @@ export function buildApp(opts: Options = {}) {
   });
 
   if (blobs) registerDocuments(app, db, blobs, appOrigin, requireUser);
+  registerDesktop(app, db, requireUser);
 
   return app;
 }

@@ -165,3 +165,23 @@ For manual hardware tests include exact device, OS, app/runtime versions and rec
   - OPTIONS preflight returns 204 with allow-origin `https://contextharbor.vercel.app`; a bogus ticket returns `upload_expired`; unauthenticated `/api/v1/documents` returns 401.
   - Vercel production serves deployment `kz06n0d44` (commit 03f6099).
 - Not yet verified: a real upload into the production bucket. No production accounts exist yet; it needs the owner's admin setup and a member.
+
+## Desktop app ↔ dashboard documents (3 October 2026; partially covers T12)
+
+- Sign-in: Settings → "Connect web account" opens the system browser at `/desktop-login`, carrying a PKCE S256 challenge, a `http://127.0.0.1:<port>/callback` redirect and a random state.
+  - The logged-in member approves. `/v1/desktop/authorize` returns a one-time, 2-minute code bound to the challenge and the redirect.
+  - The browser redirects to the app's loopback server, which checks the state.
+  - The app exchanges code + verifier at `/v1/desktop/token` for a revocable device token.
+  - The token is stored per local user with Electron `safeStorage` at `keys/web-<user>.bin`.
+  - Device tokens die on disable/reset (`session_version`) and on Disconnect.
+- Sync: `GET /v1/sync/documents` (bearer) lists the workspace's Ready documents. The text of new ones is pulled into the local KB as `web/<id>/<name>` (origin `web`, so folder sync never removes them). Documents deleted on the web are removed locally. Sync runs at startup, every 5 minutes, at meeting start, and on "Sync now". Disconnect also removes the synced copies.
+- Tests:
+  - Backend: 5 pass. The new test covers:
+    - A non-loopback redirect is rejected (400); admin gets 403 (no workspace); unauthenticated authorize gets 401.
+    - A wrong PKCE verifier gets 400; the code is single-use; failed documents are not synced.
+    - Bob's device can't read Alice's documents; disabling Alice revokes her device token; disconnect revokes Bob's.
+  - Desktop: 26 pass. The new tests cover sync into one local user only, deletion following the web, a revoked token raising `DeviceRevoked`, the loopback state check and the PKCE exchange.
+- Local end-to-end with the desktop app (Electron), web (:3123) and API (:4000):
+  - The app printed the sign-in URL. In a real browser logged in as the member, the page said "Connect to Outstar"; it was clicked.
+  - The app received the code, exchanged it, and synced 1 document.
+  - KB search for "checkout p95 latency" returned `web/709bc44d…/perf-report-2026-10-01.pdf` "[page 1] Checkout p95 latency 182 ms…". The app exited cleanly.

@@ -5,4 +5,5 @@ contextBridge.exposeInMainWorld("api", {
   get: call("get"), patch: call("patch"), switchUser: call("switchUser"), meetings: call("meetings"), meeting: call("meeting"),
   exportMeeting: call("exportMeeting"), deleteMeeting: call("deleteMeeting"), history: call("history"), setApiKey: call("setApiKey"),
   openKb: call("openKb"), wipe: call("wipe"),
+  web: call("web"), webConnect: call("webConnect"), webSync: call("webSync"), webDisconnect: call("webDisconnect"),
 });

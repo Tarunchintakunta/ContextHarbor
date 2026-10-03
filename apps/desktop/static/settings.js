@@ -56,4 +56,17 @@ $("addUser").onclick = async () => { const id = $("newUser").value.trim(); if (i
 $("openKb").onclick = () => window.api.openKb();
 $("saveKey").onclick = async () => { await window.api.setApiKey($("keyRef").value.trim(), $("keyVal").value); $("keyVal").value = ""; $("saved").textContent = "Key saved to keychain"; };
 $("wipe").onclick = async () => { if (await window.api.wipe()) load(); };
+function webRender(w) {
+  const t = w.lastSync ? new Date(w.lastSync).toLocaleTimeString() : "";
+  $("webStatus").textContent = w.connected
+    ? `Connected as ${w.email} (${w.workspace}). ${w.documents} document${w.documents === 1 ? "" : "s"} synced${t ? ` at ${t}` : ""}.${w.error ? ` ${w.error}` : ""}`
+    : w.error ? `Not connected. ${w.error}` : "Not connected.";
+  $("webConnect").hidden = w.connected;
+  $("webSync").hidden = !w.connected;
+  $("webDisconnect").hidden = !w.connected;
+}
+$("webConnect").onclick = async () => { $("webStatus").textContent = "Finish signing in in your browser…"; webRender(await window.api.webConnect()); load(); };
+$("webSync").onclick = async () => { $("webStatus").textContent = "Syncing…"; webRender(await window.api.webSync()); load(); };
+$("webDisconnect").onclick = async () => { webRender(await window.api.webDisconnect()); load(); };
+window.api.web().then(webRender);
 load();

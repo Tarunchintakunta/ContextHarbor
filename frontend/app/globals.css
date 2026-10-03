@@ -108,7 +108,7 @@ footer { margin-top: 72px; padding: 28px 0 40px; border-top: 1px solid var(--lin
 .nav a { color: var(--ink); text-decoration: none; font-weight: 700; }
 .nav a:hover { text-decoration: underline; }
 .who { color: var(--muted); font-size: 14px; }
-.btn { font: inherit; font-weight: 700; font-size: 16px; padding: 11px 20px; border-radius: 10px; border: 2px solid var(--ink); background: var(--ink); color: var(--fog); cursor: pointer; text-decoration: none; display: inline-block; }
+.btn { font: inherit; font-weight: 700; font-size: 16px; padding: 11px 20px; border-radius: 10px; border: 2px solid var(--ink); background: var(--ink); color: var(--fog); cursor: pointer; text-decoration: none; display: inline-block; white-space: nowrap; }
 .btn:hover { background: var(--teal); border-color: var(--teal); }
 .btn:disabled { opacity: 0.6; cursor: progress; }
 .btn:focus-visible, .field input:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }

@@ -5,10 +5,10 @@ import { getMe } from "../lib/session";
 
 export const metadata = { title: "Log in · ContextHarbor" };
 
-export default async function Login({ searchParams }: { searchParams: Promise<{ signedOut?: string }> }) {
+export default async function Login({ searchParams }: { searchParams: Promise<{ signedOut?: string; next?: string }> }) {
+  const { signedOut, next } = await searchParams;
   const me = await getMe();
-  if (me) redirect(me.role === "admin" ? "/admin" : "/dashboard");
-  const { signedOut } = await searchParams;
+  if (me) redirect(next?.startsWith("/desktop-login") ? next : me.role === "admin" ? "/admin" : "/dashboard");
   return (
     <div className="wrap">
       <SiteHeader />
@@ -16,7 +16,7 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
         <h1>Log in</h1>
         {signedOut && <p className="notice" role="status">You&apos;re logged out.</p>}
         <p className="lede">Use the email your admin invited. Accounts are created by invitation only.</p>
-        <AuthForm mode="login" />
+        <AuthForm mode="login" next={next} />
       </main>
     </div>
   );

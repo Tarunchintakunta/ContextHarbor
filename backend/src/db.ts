@@ -67,6 +67,23 @@ create table if not exists upload_tickets (
   expires_at timestamptz not null,
   consumed_at timestamptz
 );
+create table if not exists desktop_codes (
+  code_hash text primary key,
+  user_id uuid not null references users(id) on delete cascade,
+  challenge text not null,
+  redirect_uri text not null,
+  expires_at timestamptz not null,
+  consumed_at timestamptz
+);
+create table if not exists device_tokens (
+  token_hash text primary key,
+  user_id uuid not null references users(id) on delete cascade,
+  session_version int not null,
+  label text not null default 'Desktop app',
+  created_at timestamptz not null default now(),
+  last_used_at timestamptz,
+  revoked_at timestamptz
+);
 create table if not exists audit_events (
   id bigserial primary key,
   actor uuid,

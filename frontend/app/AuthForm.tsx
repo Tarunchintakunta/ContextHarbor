@@ -5,7 +5,10 @@ import { api, MESSAGES } from "./lib/api";
 
 type Mode = "login" | "setup" | "invite";
 
-export default function AuthForm({ mode, token, email: fixedEmail }: { mode: Mode; token?: string; email?: string }) {
+// Only same-site relative paths, so a crafted link can't send people elsewhere after login.
+const safeNext = (n?: string) => (n && n.startsWith("/") && !n.startsWith("//") && !n.includes("\\") ? n : null);
+
+export default function AuthForm({ mode, token, email: fixedEmail, next }: { mode: Mode; token?: string; email?: string; next?: string }) {
   const router = useRouter();
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -22,7 +25,7 @@ export default function AuthForm({ mode, token, email: fixedEmail }: { mode: Mod
     const r = await api<{ error?: string }>(path, "POST", { email: f.get("email"), password, token });
     setBusy(false);
     if (!r.ok) return setError(MESSAGES[r.data.error ?? ""] ?? "Something went wrong. Try again.");
-    router.push(mode === "setup" ? "/admin" : "/dashboard");
+    router.push(safeNext(next) ?? (mode === "setup" ? "/admin" : "/dashboard"));
     router.refresh();
   }
 

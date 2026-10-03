@@ -103,3 +103,54 @@ test("upload, extract, preview, accept, dedupe, isolate, delete", async () => {
   assert.deepEqual(row.rows[0], { text: null, state: "deleted" });
   await app.close();
 });
+
+test("desktop sign-in with PKCE, sync scoped to workspace, revocation", async () => {
+  const { createHash, randomBytes } = await import("node:crypto");
+  const app = buildApp({ db, blobs: new DirBlobs(blobDir), appOrigin: ORIGIN });
+  const cookieOf = (r: { headers: Record<string, unknown> }) => String(r.headers["set-cookie"]).split(";")[0];
+  const login = async (email: string) => cookieOf(await app.inject({ method: "POST", url: "/v1/auth/login", headers: H, payload: { email, password: "member password long" } }));
+  const alice = await login("alice@x.io");
+  const bob = await login("bob@x.io");
+  const admin = cookieOf(await app.inject({ method: "POST", url: "/v1/auth/login", headers: H, payload: { email: "admin@x.io", password: "admin password long" } }));
+
+  const verifier = randomBytes(32).toString("base64url");
+  const challenge = createHash("sha256").update(verifier).digest("base64url");
+  const redirect = "http://127.0.0.1:53111/callback";
+  const auth = (cookie: string, extra: Record<string, unknown> = {}) =>
+    app.inject({ method: "POST", url: "/v1/desktop/authorize", headers: { ...H, cookie }, payload: { challenge, redirect_uri: redirect, ...extra } });
+
+  assert.equal((await auth(alice, { redirect_uri: "https://evil.example/callback" })).statusCode, 400);
+  assert.equal((await auth(admin)).statusCode, 403); // admin has no workspace to sync
+  assert.equal((await app.inject({ method: "POST", url: "/v1/desktop/authorize", headers: H, payload: { challenge, redirect_uri: redirect } })).statusCode, 401);
+  const { code } = (await auth(alice)).json();
+
+  const exchange = (v: string, c = code) => app.inject({ method: "POST", url: "/v1/desktop/token", headers: { "content-type": "application/json" }, payload: { code: c, verifier: v, redirect_uri: redirect } });
+  assert.equal((await exchange("wrong-verifier")).statusCode, 400, "PKCE verifier must match");
+  const { code: code2 } = (await auth(alice)).json();
+  const tok = (await exchange(verifier, code2)).json().token;
+  assert.ok(tok);
+  assert.equal((await exchange(verifier, code2)).statusCode, 400, "code is single-use");
+
+  const bearer = { authorization: `Bearer ${tok}` };
+  const me = (await app.inject({ url: "/v1/sync/me", headers: bearer })).json();
+  assert.equal(me.workspace.name, "Outstar");
+  const list = (await app.inject({ url: "/v1/sync/documents", headers: bearer })).json();
+  assert.ok(list.documents.length >= 2);
+  assert.ok(list.documents.every((d: { name: string }) => d.name !== "scanned.pdf"), "failed docs are not synced");
+  const one = (await app.inject({ url: `/v1/sync/documents/${list.documents[0].id}`, headers: bearer })).json();
+  assert.ok(one.text.length > 0);
+
+  // bob's device can't read alice's documents
+  const bobCode = (await auth(bob)).json().code;
+  const bobTok = (await exchange(verifier, bobCode)).json().token;
+  assert.equal((await app.inject({ url: `/v1/sync/documents/${list.documents[0].id}`, headers: { authorization: `Bearer ${bobTok}` } })).statusCode, 404);
+  assert.equal((await app.inject({ url: "/v1/sync/documents", headers: { authorization: `Bearer ${bobTok}` } })).json().documents.length, 0);
+
+  // admin disabling alice revokes her device token immediately; disconnect revokes bob's
+  const users = (await app.inject({ url: "/v1/admin/users", headers: { cookie: admin } })).json().users as { id: string; email: string }[];
+  await app.inject({ method: "PATCH", url: `/v1/admin/users/${users.find((u) => u.email === "alice@x.io")!.id}/status`, headers: { ...H, cookie: admin }, payload: { status: "disabled" } });
+  assert.equal((await app.inject({ url: "/v1/sync/documents", headers: bearer })).statusCode, 401);
+  await app.inject({ method: "POST", url: "/v1/desktop/disconnect", headers: { authorization: `Bearer ${bobTok}` } });
+  assert.equal((await app.inject({ url: "/v1/sync/me", headers: { authorization: `Bearer ${bobTok}` } })).statusCode, 401);
+  await app.close();
+});
