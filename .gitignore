@@ -15,3 +15,4 @@ ContextHarbor-Claude-Pack.zip
 .vercel/
 .omc/
 .blobs/
+*.tsbuildinfo
