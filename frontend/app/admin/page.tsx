@@ -10,8 +10,8 @@ export default async function Admin() {
     <div className="wrap">
       <SiteHeader />
       <main className="panel-page">
-        <h1>Members</h1>
-        <p className="lede">Each member gets one workspace for one client or project. As admin ({me.email}) you manage access; you don&apos;t see their passwords.</p>
+        <h1>Admin</h1>
+        <p className="lede">Signed in as {me.email}. Invite people, give each one a workspace, and turn their access on or off. You never see their passwords or document contents.</p>
         <AdminPanel />
       </main>
     </div>

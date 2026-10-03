@@ -1,17 +1,9 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
 import { api } from "../lib/api";
+import { ago } from "../lib/format";
 
 interface Device { id: string; label: string; created_at: string; last_used_at: string | null }
-
-function ago(iso: string | null) {
-  if (!iso) return "not synced yet";
-  const s = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
-  if (s < 60) return "synced just now";
-  if (s < 3600) return `synced ${Math.round(s / 60)} min ago`;
-  if (s < 86400) return `synced ${Math.round(s / 3600)} h ago`;
-  return `synced ${new Date(iso).toLocaleDateString(undefined, { day: "numeric", month: "short" })}`;
-}
 
 export default function DesktopApps({ ready }: { ready: number }) {
   const [devices, setDevices] = useState<Device[] | null>(null);

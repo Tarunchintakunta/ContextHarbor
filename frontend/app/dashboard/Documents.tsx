@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { api } from "../lib/api";
 import DesktopApps from "./DesktopApps";
+import { size } from "../lib/format";
 
 const API = process.env.NEXT_PUBLIC_API_ORIGIN ?? "";
 const MAX = 25 * 1024 * 1024;
@@ -13,7 +14,6 @@ interface Doc {
 }
 interface Pending { key: string; name: string; status: "uploading" | "error"; message?: string }
 
-const size = (b: number) => (b < 1024 * 1024 ? `${Math.max(1, Math.round(b / 1024))} KB` : `${(b / 1024 / 1024).toFixed(1)} MB`);
 const STATE = { ready: ["ok", "Ready"], needs_review: ["warn", "Needs your review"], failed: ["bad", "Couldn't read"] } as const;
 
 export default function Documents() {
