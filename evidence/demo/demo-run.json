@@ -4,15 +4,15 @@
   "status": "answered",
   "model": "openai-compatible:qwen2.5:7b",
   "timings": {
-    "retrievalMs": 27,
-    "totalMs": 1622,
-    "firstTokenMs": 683
+    "retrievalMs": 33,
+    "totalMs": 4816,
+    "firstTokenMs": 3812
   },
   "requestTokens": 4681,
   "attempts": [
     {
       "modelId": "openai-compatible:qwen2.5:7b",
-      "ms": 1594
+      "ms": 4783
     }
   ],
   "sources": [
