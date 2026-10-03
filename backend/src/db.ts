@@ -40,6 +40,33 @@ create table if not exists invitations (
   consumed_at timestamptz,
   created_at timestamptz not null default now()
 );
+create table if not exists documents (
+  id uuid primary key default gen_random_uuid(),
+  workspace_id uuid not null references workspaces(id),
+  uploaded_by uuid not null references users(id),
+  name text not null check (length(name) between 1 and 200),
+  format text not null check (format in ('md', 'pdf', 'docx')),
+  size_bytes bigint not null check (size_bytes > 0 and size_bytes <= 26214400),
+  sha256 text not null,
+  state text not null check (state in ('ready', 'needs_review', 'failed', 'deleted')),
+  warnings jsonb not null default '[]',
+  reason text,
+  pages int,
+  text text,
+  blob_key text,
+  limitations_accepted_at timestamptz,
+  created_at timestamptz not null default now(),
+  deleted_at timestamptz
+);
+create unique index if not exists documents_dedupe on documents (workspace_id, sha256) where state <> 'deleted';
+create index if not exists documents_workspace on documents (workspace_id, created_at desc);
+create table if not exists upload_tickets (
+  token_hash text primary key,
+  user_id uuid not null references users(id) on delete cascade,
+  workspace_id uuid not null references workspaces(id),
+  expires_at timestamptz not null,
+  consumed_at timestamptz
+);
 create table if not exists audit_events (
   id bigserial primary key,
   actor uuid,

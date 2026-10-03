@@ -1,9 +1,10 @@
 import { buildApp } from "./app.js";
 import { connect, migrate } from "./db.js";
+import { blobsFromEnv } from "./blobs.js";
 
 const db = process.env.DATABASE_URL ? connect(process.env.DATABASE_URL) : undefined;
 if (db) await migrate(db);
-const app = buildApp({ db });
+const app = buildApp({ db, blobs: db ? blobsFromEnv() : undefined });
 const port = Number(process.env.PORT ?? 4000);
 await app.listen({ port, host: "0.0.0.0" });
 

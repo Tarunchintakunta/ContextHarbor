@@ -2,6 +2,8 @@ import Fastify, { type FastifyReply, type FastifyRequest } from "fastify";
 import cookie from "@fastify/cookie";
 import type { Db } from "./db.js";
 import { hashPassword, Limiter, newToken, normalizeEmail, sha256, validPassword, verifyPassword } from "./auth.js";
+import type { BlobStore } from "./blobs.js";
+import { registerDocuments } from "./documents.js";
 
 const COOKIE = "ch_session";
 const SESSION_MS = 7 * 86_400_000;
@@ -9,6 +11,7 @@ const INVITE_MS = 7 * 86_400_000;
 
 export interface Options {
   db?: Db; // absent: health-only mode
+  blobs?: BlobStore;
   appOrigin?: string;
   secureCookies?: boolean;
 }
@@ -28,9 +31,19 @@ declare module "fastify" {
 }
 
 export function buildApp(opts: Options = {}) {
-  const { db, appOrigin = process.env.APP_ORIGIN ?? "", secureCookies = process.env.NODE_ENV === "production" } = opts;
+  const { db, blobs, appOrigin = process.env.APP_ORIGIN ?? "", secureCookies = process.env.NODE_ENV === "production" } = opts;
   const app = Fastify({ logger: process.env.NODE_ENV !== "test", bodyLimit: 16 * 1024, trustProxy: true });
   void app.register(cookie);
+  // Treat an empty JSON body as {} (DELETE/logout calls often send the header with no body).
+  app.removeContentTypeParser("application/json");
+  app.addContentTypeParser("application/json", { parseAs: "string" }, (_req, body, done) => {
+    if (!body) return done(null, {});
+    try {
+      done(null, JSON.parse(body as string));
+    } catch {
+      done(Object.assign(new Error("invalid JSON"), { statusCode: 400 }), undefined);
+    }
+  });
   const limiter = new Limiter();
 
   app.addHook("onSend", async (req, reply) => {
@@ -54,7 +67,8 @@ export function buildApp(opts: Options = {}) {
   // CSRF: every state-changing request must carry a custom header, which a cross-site form or
   // simple request cannot add without a CORS preflight (and preflights are never approved here).
   app.addHook("onRequest", async (req, reply) => {
-    if (req.method !== "GET" && req.method !== "HEAD" && req.headers["x-ch-csrf"] !== "1") {
+    const ticketed = req.url.startsWith("/v1/uploads"); // authenticated by a single-use ticket, not the cookie
+    if (req.method !== "GET" && req.method !== "HEAD" && !ticketed && req.headers["x-ch-csrf"] !== "1") {
       return reply.code(403).send({ error: "csrf" });
     }
   });
@@ -240,6 +254,8 @@ export function buildApp(opts: Options = {}) {
     await audit(req.me!.id, "member_reset", id);
     return { inviteUrl: await inviteLink(id) };
   });
+
+  if (blobs) registerDocuments(app, db, blobs, appOrigin, requireUser);
 
   return app;
 }

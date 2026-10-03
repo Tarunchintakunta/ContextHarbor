@@ -14,9 +14,12 @@
     "test": "pnpm build && node --test dist/*.test.js"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "3.1146.0",
     "@fastify/cookie": "11.1.2",
     "fastify": "5.12.5",
-    "pg": "8.23.1"
+    "mammoth": "1.13.0",
+    "pg": "8.23.1",
+    "unpdf": "1.8.1"
   },
   "devDependencies": {
     "@types/node": "24.19.1",

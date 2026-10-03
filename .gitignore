@@ -14,3 +14,4 @@ local-data/
 ContextHarbor-Claude-Pack.zip
 .vercel/
 .omc/
+.blobs/
