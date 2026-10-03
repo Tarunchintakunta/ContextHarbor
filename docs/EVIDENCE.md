@@ -185,3 +185,8 @@ For manual hardware tests include exact device, OS, app/runtime versions and rec
   - The app printed the sign-in URL. In a real browser logged in as the member, the page said "Connect to Outstar"; it was clicked.
   - The app received the code, exchanged it, and synced 1 document.
   - KB search for "checkout p95 latency" returned `web/709bc44d…/perf-report-2026-10-01.pdf` "[page 1] Checkout p95 latency 182 ms…". The app exited cleanly.
+
+## 2026-10-03 Cloudflare R2 blob storage and white UI restyle
+- Local: backend/.env (gitignored, mode 600) points S3Blobs at R2 bucket `my-app-storage`. Uploading through the real app created the object; GET and DELETE through the app then worked and removed it. Credentials are not stored in the repo.
+- Prod: the R2 variables are set on the Railway service. Deployment ae0e3f3a (commit 9dc01ef) is SUCCESS, the container started cleanly, and /health returns 200.
+- UI: the website, desktop overlay and settings are restyled to a white, cool-blue palette (commit 90207f2). The new CSS is confirmed served by contextharbor.vercel.app. Screenshots are in evidence/demo/demo-run.png and evidence/demo/settings.png. The desktop app was repackaged (out/ContextHarbor-darwin-arm64).
