@@ -138,3 +138,30 @@ For manual hardware tests include exact device, OS, app/runtime versions and rec
   - MFA for the admin (T08).
   - Password reset by email: no email provider, so admins issue a new login link instead.
   - A production browser login has not been run yet; it needs the owner to use the setup link.
+
+## Document upload on the member dashboard (3 October 2026; partially covers T14–T17)
+
+- Commit 03f6099.
+- Flow: the dashboard asks for a single-use, 5-minute upload ticket through the cookie-authenticated proxy. It then sends the file with `PUT /v1/uploads` directly to the API (CORS allows only `APP_ORIGIN`).
+- Checks before anything is stored:
+  - File signature: `%PDF-`; a ZIP containing `word/document.xml` for .docx; UTF-8 with no NUL bytes for .md. The extension must match the content.
+  - .docx files containing `vbaProject.bin` (macros) are rejected.
+  - Limits: 25 MiB per file, 20 files and 500 MiB per workspace.
+  - A file with the same SHA-256 as an existing one returns that document instead of a new copy.
+- Extraction runs in a `worker_threads` worker with a 384 MB memory cap and a 30 s timeout:
+  - PDF: text keeps `[page N]` markers. Pages with no text are listed; the document is marked "needs review" until the member accepts the limitation. A PDF with no text at all fails. More than 200 pages fails.
+  - DOCX: headings become Markdown headings; tables become `cell | cell` rows; images are reported as unread.
+- Storage: originals go to the private Railway bucket `documents` (credentials passed as `${{documents.*}}` variable references); extracted text goes to Postgres.
+- Delete: tombstones the row, clears its text, then removes the stored original. Every query is scoped to the member's own workspace; the admin has no route to document content.
+- `cd backend && NODE_ENV=test pnpm test` -> 4 pass, 0 fail. The new test covers:
+  - md ready; pdf needs_review with page-2 warning and page-1 preview; docx heading and table preview.
+  - scanned PDF fails; fake PDF -> 415; .exe -> 415; macro docx -> 415; 25 MiB + 1 byte -> 413.
+  - Duplicate re-upload; ticket single use (second PUT 401); foreign Origin 403.
+  - Another member and the admin can't list, read or delete the documents.
+  - Delete removes the stored original and clears the text.
+- Local browser end-to-end (UI file input): .md -> Ready; .pdf -> "Needs your review", with preview `[page 1] Checkout p95 latency 182 ms…`, then Accept -> Ready; .exe -> "Only .md, .pdf and .docx files are supported."; Delete -> removed, usage 1 of 20.
+- Production:
+  - Backend `/health` shows commit 03f6099.
+  - OPTIONS preflight returns 204 with allow-origin `https://contextharbor.vercel.app`; a bogus ticket returns `upload_expired`; unauthenticated `/api/v1/documents` returns 401.
+  - Vercel production serves deployment `kz06n0d44` (commit 03f6099).
+- Not yet verified: a real upload into the production bucket. No production accounts exist yet; it needs the owner's admin setup and a member.
