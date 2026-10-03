@@ -2,7 +2,7 @@
   "platform": "darwin",
   "osRelease": "27.0.0",
   "electron": "44.5.1",
-  "method": "screencapture",
+  "method": "Chromium desktopCapturer (ScreenCaptureKit) in a separate process",
   "error": null,
   "controlVisible": 1,
   "protectedVisible": 0,

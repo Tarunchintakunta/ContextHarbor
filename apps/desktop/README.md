@@ -50,7 +50,8 @@ Default hotkeys (all rebindable in Settings):
 ```bash
 pnpm test     # unit + integration (node:test): 24 tests
 pnpm eval     # model evaluation: 38 cases × 3 rounds against local models (needs Ollama)
-pnpm build && electron dist/app/exclusion-test.js ../../evidence/exclusion/<name>   # capture-exclusion check
+pnpm build && electron dist/app/exclusion-test.js ../../evidence/exclusion/<name>                        # OS screenshot tool
+pnpm build && CH_CAPTURE_METHOD=sck electron dist/app/exclusion-test.js ../../evidence/exclusion/<name>  # Chromium/ScreenCaptureKit capturer
 ```
 
 What the tests cover:
@@ -110,7 +111,11 @@ Two tests are integration tests:
   - Windows 10 2004+: supported by the OS API, but not yet verified with a second device.
   - macOS: best effort. While you present on your only display, the panel is hidden unless you tick the receiver-tested option. With a second display, the panel moves there.
   - Linux: unsupported. The panel is hidden while you present on a single display.
-  - The automated exclusion test could not run on the development Mac: this environment lacks Screen Recording permission (`could not create image from rect`).
+  - Automated exclusion test on macOS 27.0 (Apple M5 Pro, Electron 44.5.1), on 3 October 2026: **PASS** with two capture paths. In both, the unprotected control window was fully visible and the protected window was absent.
+    - `screencapture`.
+    - Chromium's desktop capturer (ScreenCaptureKit) running in a separate process: the same stack browser meetings use to share a screen.
+
+    This is local evidence only. The macOS rows stay best effort until a second device confirms the receiver's view in Meet, Teams and Slack.
 - **Sharing detection reads window titles** ("is presenting", "Sharing control bar", …). The app cannot always know which screen is being shared, so it assumes the primary display.
 - **Meeting chat is captured through OCR of the meeting window**, not through the meeting app's API. Hidden chat panels are not read.
 - **Live loopback audio still needs real-device evidence:**

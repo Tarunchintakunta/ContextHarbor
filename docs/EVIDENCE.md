@@ -102,3 +102,14 @@ For manual hardware tests include exact device, OS, app/runtime versions and rec
   - Anything on Windows or an Intel Mac.
   - Hosted LLM providers.
   - Notarized and signed installers.
+
+## Capture-exclusion test (owner granted Screen Recording, 3 October 2026)
+
+- Environment: Apple M5 Pro, macOS 27.0 (26A428), Electron 44.5.1. The protected window uses `setContentProtection(true)` and has a magenta background. The control window is unprotected and green. Both are always-on-top, side by side at (80,153) and (380,153).
+- First rerun: INCONCLUSIVE. The test windows were shown before they had rendered, so neither was in the capture. Fixed by waiting for `ready-to-show` and showing the windows at screen-saver level.
+- A pixel-matching bug was also fixed. ScreenCaptureKit returns colour-managed pixels (pure green comes back near #77FF4F), so the check now matches by hue instead of exact RGB.
+- Results:
+  - `electron dist/app/exclusion-test.js .../macos-screencapture` -> `controlVisible: 1, protectedVisible: 0, PASS (excluded)`.
+  - `CH_CAPTURE_METHOD=sck electron dist/app/exclusion-test.js .../macos-chromium-sck` (separate process, Chromium desktopCapturer / ScreenCaptureKit) -> `controlVisible: 1, protectedVisible: 0, PASS (excluded)`.
+- Evidence: evidence/exclusion/macos-screencapture.{json,png} and evidence/exclusion/macos-chromium-sck.{json,png}.
+- Limits: this is local capture only, not a meeting receiver's view. Native Teams, Zoom and Slack may use other capture paths. COMPATIBILITY rows stay NOT TESTED until a second device confirms them. T04 and T05 remain open.
