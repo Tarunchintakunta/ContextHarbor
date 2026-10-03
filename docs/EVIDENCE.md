@@ -190,3 +190,8 @@ For manual hardware tests include exact device, OS, app/runtime versions and rec
 - Local: backend/.env (gitignored, mode 600) points S3Blobs at R2 bucket `my-app-storage`. Uploading through the real app created the object; GET and DELETE through the app then worked and removed it. Credentials are not stored in the repo.
 - Prod: the R2 variables are set on the Railway service. Deployment ae0e3f3a (commit 9dc01ef) is SUCCESS, the container started cleanly, and /health returns 200.
 - UI: the website, desktop overlay and settings are restyled to a white, cool-blue palette (commit 90207f2). The new CSS is confirmed served by contextharbor.vercel.app. Screenshots are in evidence/demo/demo-run.png and evidence/demo/settings.png. The desktop app was repackaged (out/ContextHarbor-darwin-arm64).
+
+## 2026-10-03 Production seed accounts
+- At the owner's request, created the production admin (owner's email) and a demo member `demo@contextharbor.test` with workspace "Demo workspace". Created by direct SQL on Neon (lingering-tree-35221842), with scrypt hashes computed locally. Passwords were given to the owner in chat and are not stored in the repo.
+- The unused one-time setup link was closed at the same time. An audit event `seed_accounts` was recorded.
+- Verified: both accounts log in through https://contextharbor.vercel.app/api/v1/auth/login (HTTP 200).
