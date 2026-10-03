@@ -84,6 +84,8 @@ create table if not exists device_tokens (
   last_used_at timestamptz,
   revoked_at timestamptz
 );
+alter table device_tokens add column if not exists id uuid not null default gen_random_uuid();
+create unique index if not exists device_tokens_id on device_tokens (id);
 create table if not exists audit_events (
   id bigserial primary key,
   actor uuid,

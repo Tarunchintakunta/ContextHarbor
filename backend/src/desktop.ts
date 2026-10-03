@@ -65,13 +65,14 @@ export function registerDesktop(app: FastifyInstance, db: Db, requireUser: (req:
 
   app.get("/v1/sync/me", async (req, reply) => {
     const d = await device(req, reply);
-    return d && { email: d.email, workspace: { id: d.workspace_id, name: d.workspace_name } };
+    if (!d) return reply;
+    return { email: d.email, workspace: { id: d.workspace_id, name: d.workspace_name } };
   });
 
   /** Ready documents only (accepted limitations count as ready). Text is fetched per document. */
   app.get("/v1/sync/documents", async (req, reply) => {
     const d = await device(req, reply);
-    if (!d) return;
+    if (!d) return reply;
     const r = await db.query(
       "select id, name, sha256, format, pages, created_at from documents where workspace_id = $1 and state = 'ready' order by created_at",
       [d.workspace_id],
@@ -81,11 +82,30 @@ export function registerDesktop(app: FastifyInstance, db: Db, requireUser: (req:
 
   app.get("/v1/sync/documents/:id", async (req, reply) => {
     const d = await device(req, reply);
-    if (!d) return;
+    if (!d) return reply;
     const { id } = req.params as { id: string };
     if (!/^[0-9a-f-]{36}$/.test(id)) return reply.code(404).send({ error: "not_found" });
     const r = await db.query("select id, name, sha256, created_at, text from documents where id = $1 and workspace_id = $2 and state = 'ready'", [id, d.workspace_id]);
     return r.rows[0] ?? reply.code(404).send({ error: "not_found" });
+  });
+
+  /** Member's connected desktop apps, for the dashboard. */
+  app.get("/v1/desktop/devices", { preHandler: requireUser }, async (req) => {
+    const r = await db.query(
+      `select d.id, d.label, d.created_at, d.last_used_at from device_tokens d join users u on u.id = d.user_id
+        where d.user_id = $1 and d.revoked_at is null and d.session_version = u.session_version order by d.created_at desc`,
+      [req.me!.id],
+    );
+    return { devices: r.rows };
+  });
+
+  app.delete("/v1/desktop/devices/:id", { preHandler: requireUser }, async (req, reply) => {
+    const { id } = req.params as { id: string };
+    if (!/^[0-9a-f-]{36}$/.test(id)) return reply.code(404).send({ error: "not_found" });
+    const r = await db.query("update device_tokens set revoked_at = now() where id = $1 and user_id = $2 and revoked_at is null", [id, req.me!.id]);
+    if (!r.rowCount) return reply.code(404).send({ error: "not_found" });
+    await db.query("insert into audit_events (actor, action, target) values ($1, 'desktop_revoked', $2)", [req.me!.id, id]);
+    return { ok: true };
   });
 
   app.post("/v1/desktop/disconnect", async (req, reply) => {

@@ -146,6 +146,20 @@ test("desktop sign-in with PKCE, sync scoped to workspace, revocation", async ()
   assert.equal((await app.inject({ url: `/v1/sync/documents/${list.documents[0].id}`, headers: { authorization: `Bearer ${bobTok}` } })).statusCode, 404);
   assert.equal((await app.inject({ url: "/v1/sync/documents", headers: { authorization: `Bearer ${bobTok}` } })).json().documents.length, 0);
 
+  // dashboard lists only your own devices; you can revoke yours but not someone else's
+  const { code: code3 } = (await auth(alice)).json();
+  const tok3 = (await exchange(verifier, code3)).json().token;
+  const devs = (await app.inject({ url: "/v1/desktop/devices", headers: { cookie: alice } })).json().devices as { id: string; last_used_at: string | null }[];
+  assert.equal(devs.length, 2);
+  assert.ok(devs.some((d) => d.last_used_at), "sync use is recorded");
+  assert.equal((await app.inject({ url: "/v1/desktop/devices", headers: { cookie: bob } })).json().devices.length, 1);
+  const third = devs.find((d) => !d.last_used_at)!;
+  assert.equal((await app.inject({ method: "DELETE", url: `/v1/desktop/devices/${third.id}`, headers: { ...H, cookie: bob } })).statusCode, 404);
+  assert.equal((await app.inject({ method: "DELETE", url: `/v1/desktop/devices/${third.id}`, headers: { cookie: alice } })).statusCode, 403, "CSRF header required");
+  assert.equal((await app.inject({ method: "DELETE", url: `/v1/desktop/devices/${third.id}`, headers: { ...H, cookie: alice } })).statusCode, 200);
+  assert.equal((await app.inject({ url: "/v1/sync/me", headers: { authorization: `Bearer ${tok3}` } })).statusCode, 401);
+  assert.equal((await app.inject({ url: "/v1/sync/me", headers: bearer })).statusCode, 200, "other device unaffected");
+
   // admin disabling alice revokes her device token immediately; disconnect revokes bob's
   const users = (await app.inject({ url: "/v1/admin/users", headers: { cookie: admin } })).json().users as { id: string; email: string }[];
   await app.inject({ method: "PATCH", url: `/v1/admin/users/${users.find((u) => u.email === "alice@x.io")!.id}/status`, headers: { ...H, cookie: admin }, payload: { status: "disabled" } });
