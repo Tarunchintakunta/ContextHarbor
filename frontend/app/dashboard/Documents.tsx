@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
 import { api } from "../lib/api";
+import DesktopApps from "./DesktopApps";
 
 const API = process.env.NEXT_PUBLIC_API_ORIGIN ?? "";
 const MAX = 25 * 1024 * 1024;
@@ -77,11 +78,14 @@ export default function Documents() {
     void load();
   }
 
+  const count = (st: Doc["state"]) => docs?.filter((d) => d.state === st).length ?? 0;
+  const ready = count("ready");
+
   return (
+    <div className="dash">
     <section className="docs" aria-labelledby="docs-h">
       <div className="docs-head">
         <h2 id="docs-h">Documents</h2>
-        <p className="muted">{usage.files} of 20 files · {size(usage.bytes)} of 500 MB</p>
       </div>
 
       <label
@@ -144,5 +148,32 @@ export default function Documents() {
         </ul>
       )}
     </section>
+
+    <aside className="dash-side">
+      <section className="side-card" aria-labelledby="glance-h">
+        <h2 id="glance-h">At a glance</h2>
+        <dl className="tally">
+          <div><dt>Ready</dt><dd>{ready}</dd></div>
+          <div className={count("needs_review") ? "warn" : ""}><dt>To review</dt><dd>{count("needs_review")}</dd></div>
+          <div className={count("failed") ? "bad" : ""}><dt>Unreadable</dt><dd>{count("failed")}</dd></div>
+        </dl>
+        <Meter label="Files" value={usage.files} max={20} text={`${usage.files} of 20`} />
+        <Meter label="Storage" value={usage.bytes} max={500 * 1024 * 1024} text={`${size(usage.bytes)} of 500 MB`} />
+      </section>
+      <DesktopApps ready={ready} />
+    </aside>
+    </div>
+  );
+}
+
+function Meter({ label, value, max, text }: { label: string; value: number; max: number; text: string }) {
+  const pct = Math.min(100, (value / max) * 100);
+  return (
+    <div className="meter">
+      <div className="meter-row"><span>{label}</span><span>{text}</span></div>
+      <div className="meter-bar" role="meter" aria-label={label} aria-valuemin={0} aria-valuemax={max} aria-valuenow={value} aria-valuetext={text}>
+        <i style={{ width: `${value > 0 ? Math.max(pct, 2) : 0}%` }} className={pct >= 90 ? "full" : ""} />
+      </div>
+    </div>
   );
 }
