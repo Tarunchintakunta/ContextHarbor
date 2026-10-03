@@ -202,7 +202,12 @@ export function buildApp(opts: Options = {}) {
   // ---- admin ----
   app.get("/v1/admin/users", { preHandler: requireAdmin }, async () => {
     const r = await db.query(
-      `select u.id, u.email, u.role, u.status, u.password_hash is not null as activated, w.name as workspace, u.created_at
+      // Counts only: the admin sees how much each workspace holds, never document contents.
+      `select u.id, u.email, u.role, u.status, u.password_hash is not null as activated, w.name as workspace, u.created_at,
+              (select count(*)::int from documents d where d.workspace_id = u.workspace_id and d.state <> 'deleted') as docs,
+              (select coalesce(sum(size_bytes), 0)::bigint from documents d where d.workspace_id = u.workspace_id and d.state <> 'deleted') as bytes,
+              (select count(*)::int from device_tokens t where t.user_id = u.id and t.revoked_at is null and t.session_version = u.session_version) as devices,
+              (select max(last_used_at) from device_tokens t where t.user_id = u.id and t.revoked_at is null) as last_sync
          from users u left join workspaces w on w.id = u.workspace_id order by u.role, u.created_at`,
     );
     return { users: r.rows };

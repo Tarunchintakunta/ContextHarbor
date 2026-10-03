@@ -81,7 +81,8 @@ test("setup, login, logout, invite, isolation and revocation", async () => {
   assert.equal((await app.inject({ url: "/v1/me", headers: { cookie: bobCookie } })).statusCode, 401);
 
   // the single admin cannot be disabled, and a second admin is impossible at the DB level
-  const users = (await app.inject({ url: "/v1/admin/users", headers: { cookie: adminCookie } })).json().users as { id: string; role: string }[];
+  const users = (await app.inject({ url: "/v1/admin/users", headers: { cookie: adminCookie } })).json().users as { id: string; role: string; docs: number; devices: number }[];
+  assert.ok(users.every((u) => typeof u.docs === "number" && typeof u.devices === "number"), "admin list carries per-member counts");
   const admin = users.find((u) => u.role === "admin")!;
   assert.equal((await app.inject({ method: "PATCH", url: `/v1/admin/users/${admin.id}/status`, headers: { ...H, cookie: adminCookie }, payload: { status: "disabled" } })).statusCode, 404);
   await assert.rejects(db.query("insert into users (email, role) values ('second@x.io', 'admin')"));
