@@ -5,18 +5,18 @@ import { useEffect, useState } from "react";
 const API = process.env.NEXT_PUBLIC_API_ORIGIN ?? "";
 
 export default function ApiStatus() {
-  const [s, setS] = useState<{ state: "checking" | "ok" | "down"; detail: string }>({ state: "checking", detail: "checking…" });
+  const [s, setS] = useState<{ state: "checking" | "ok" | "down"; text: string }>({ state: "checking", text: "Checking service" });
   useEffect(() => {
-    if (!API) return setS({ state: "down", detail: "API origin not configured" });
-    fetch(`${API}/health`, { cache: "no-store" })
+    if (!API) return setS({ state: "down", text: "Service not configured" });
+    fetch("/api/health", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
-      .then((j: { commit: string }) => setS({ state: "ok", detail: `API reachable · build ${j.commit}` }))
-      .catch((e: Error) => setS({ state: "down", detail: `API unreachable · ${e.message}` }));
+      .then(() => setS({ state: "ok", text: "Service online" }))
+      .catch(() => setS({ state: "down", text: "Service unreachable" }));
   }, []);
   return (
-    <span className="status" role="status">
-      <span className={`dot ${s.state === "ok" ? "ok" : s.state === "down" ? "bad" : ""}`} aria-hidden="true" />
-      {s.detail}
+    <span className="api" role="status">
+      <i className={s.state === "ok" ? "ok" : s.state === "down" ? "bad" : ""} aria-hidden="true" />
+      {s.text}
     </span>
   );
 }

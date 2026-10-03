@@ -5,17 +5,22 @@
   "description": "ContextHarbor API skeleton: health check only. No product endpoints yet.",
   "type": "module",
   "main": "dist/server.js",
-  "engines": { "node": ">=22.12" },
+  "engines": {
+    "node": ">=22.12"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "start": "node dist/server.js",
     "test": "pnpm build && node --test dist/*.test.js"
   },
   "dependencies": {
-    "fastify": "5.12.5"
+    "@fastify/cookie": "11.1.2",
+    "fastify": "5.12.5",
+    "pg": "8.23.1"
   },
   "devDependencies": {
     "@types/node": "24.19.1",
+    "@types/pg": "8.23.1",
     "typescript": "7.0.2"
   }
 }
